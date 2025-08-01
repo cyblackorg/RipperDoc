@@ -1,7 +1,7 @@
 {
-  "name": "zero-health-server",
+  "name": "ripperdoc-server",
   "version": "1.0.0",
-  "description": "Deliberately vulnerable healthcare portal",
+  "description": "Advanced healthcare management platform",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

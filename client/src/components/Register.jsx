@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import logo from '../assets/logo-light-bg.svg';
+import logo from '../assets/ripperdoc-logo-light-bg.svg';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -63,10 +63,10 @@ const Register = () => {
     <div className="auth-container">
       <div className="auth-box">
         <div className="auth-logo">
-          <img src={logo} alt="Zero Health Logo" className="auth-logo-image" />
+          <img src={logo} alt="RipperDoc Logo" className="auth-logo-image" />
         </div>
         <h2>Create Account</h2>
-        <p className="subtitle">Join Zero Health and start sharing your medical data!</p>
+                  <p className="subtitle">Join RipperDoc and start managing your healthcare!</p>
 
         {error && <div className="error-message">{error}</div>}
 

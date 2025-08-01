@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import logo from '../assets/logo-light-bg.svg';
+import logo from '../assets/ripperdoc-logo-light-bg.svg';
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -37,7 +37,7 @@ const Login = () => {
     <div className="auth-container">
       <div className="auth-box">
         <div className="auth-logo">
-          <img src={logo} alt="Zero Health Logo" className="auth-logo-image" />
+          <img src={logo} alt="RipperDoc Logo" className="auth-logo-image" />
         </div>
         <h2>Welcome Back!</h2>
         <p className="subtitle">Login to access your medical records</p>

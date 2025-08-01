@@ -1,16 +1,16 @@
 #!/usr/bin/env node
 
 console.log(`
-🤖 Zero Health LLM Configuration Setup
-=====================================
+🤖 RipperDoc LLM Configuration Setup
+====================================
 
-This application now uses an LLM for dynamic responses instead of hardcoded replies.
+This application uses OpenAI for AI assistant functionality.
 
 CONFIGURATION OPTIONS:
 
-1. OpenAI API (Recommended for testing):
+1. OpenAI API (Recommended):
    export OPENAI_API_KEY="your-api-key-here"
-   export OPENAI_MODEL="gpt-3.5-turbo"
+   export OPENAI_MODEL="gpt-4o-mini"
    export OPENAI_BASE_URL="https://api.openai.com/v1"
 
 2. Local LLM with LM Studio:
@@ -24,11 +24,6 @@ CONFIGURATION OPTIONS:
    export OPENAI_API_KEY="your-groq-api-key"
    export OPENAI_MODEL="llama3-8b-8192"
    export OPENAI_BASE_URL="https://api.groq.com/openai/v1"
-
-4. Ollama (Local):
-   export OPENAI_API_KEY="ollama"
-   export OPENAI_MODEL="llama3"
-   export OPENAI_BASE_URL="http://localhost:11434/v1"
 
 SECURITY NOTE:
 This LLM integration includes deliberate vulnerabilities for educational purposes:

@@ -1,0 +1,11 @@
+<svg width="400" height="80" viewBox="0 0 400 80" xmlns="http://www.w3.org/2000/svg">
+  <!-- Medical cross symbol with better contrast -->
+  <rect x="20" y="25" width="16" height="50" fill="#0d6efd" stroke="#0056b3" stroke-width="0.5"/>
+  <rect x="12" y="33" width="48" height="16" fill="#0d6efd" stroke="#0056b3" stroke-width="0.5"/>
+  
+  <!-- RipperDoc text - darker color for better contrast on light backgrounds -->
+  <text x="80" y="35" font-family="Arial, sans-serif" font-size="48" font-weight="bold" fill="#000000">RIPPER</text>
+  
+  <!-- DOC text - darker color for better contrast on light backgrounds -->
+  <text x="80" y="65" font-family="Arial, sans-serif" font-size="48" font-weight="bold" fill="#000000">DOC</text>
+</svg> 

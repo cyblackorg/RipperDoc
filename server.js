@@ -12,7 +12,7 @@ const multer = require('multer');
 const app = express();
 
 // JWT secret configuration
-const JWT_SECRET = 'zero-health-super-secret-key';
+const JWT_SECRET = 'ripperdoc-super-secret-key';
 
 // CORS configuration
 app.use(cors({
@@ -34,7 +34,7 @@ app.use(morgan('dev'));
 const pool = new Pool({
     user: process.env.POSTGRES_USER || 'postgres',
     host: process.env.POSTGRES_HOST || 'db',
-    database: process.env.POSTGRES_DB || 'zero_health',
+    database: process.env.POSTGRES_DB || 'ripperdoc',
     password: process.env.POSTGRES_PASSWORD || 'postgres',
     port: process.env.POSTGRES_PORT || 5432,
 });
@@ -773,7 +773,7 @@ app.get('/api/openapi.json', (req, res) => {
  *                   example: db
  *                 database:
  *                   type: string
- *                   example: zero_health
+ *                   example: ripperdoc
  *                 port:
  *                   type: integer
  *                   example: 5432
@@ -812,38 +812,7 @@ app.get('/api/health', (req, res) => {
     res.json({ status: 'vulnerable' });
 });
 
-// Ollama setup status endpoint
-app.get('/api/ollama/status', (req, res) => {
-    const fs = require('fs');
-    try {
-        // Check if setup log exists
-        const logPath = '/tmp/ollama-setup.log';
-        if (fs.existsSync(logPath)) {
-            const log = fs.readFileSync(logPath, 'utf8');
-            const isComplete = log.includes('🎉 Ollama setup complete!');
-            const hasError = log.includes('❌');
-            
-            res.json({
-                status: isComplete ? 'ready' : hasError ? 'error' : 'setting_up',
-                log: log.split('\n').slice(-10).join('\n'), // Last 10 lines
-                provider: process.env.LLM_PROVIDER || 'ollama',
-                model: process.env.OLLAMA_MODEL || 'llama3.2:3b'
-            });
-        } else {
-            res.json({
-                status: 'unknown',
-                message: 'Setup log not found',
-                provider: process.env.LLM_PROVIDER || 'ollama'
-            });
-        }
-    } catch (error) {
-        res.json({
-            status: 'error',
-            error: error.message,
-            provider: process.env.LLM_PROVIDER || 'ollama'
-        });
-    }
-});
+
 
 /**
  * @swagger
@@ -1660,7 +1629,7 @@ app.get('/api/info', (req, res) => {
         database: {
             host: process.env.POSTGRES_HOST || 'db',
             port: process.env.POSTGRES_PORT || 5432,
-            database: process.env.POSTGRES_DB || 'zero_health'
+            database: process.env.POSTGRES_DB || 'ripperdoc'
         },
         jwt_secret: JWT_SECRET,  // Exposed secret!
         admin_credentials: {

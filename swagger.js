@@ -10,7 +10,7 @@ const options = {
       description: 'A comprehensive healthcare portal API with AI assistant for managing patient records, appointments, and medical data',
       contact: {
         name: 'Zero Health Development Team',
-        email: 'dev@zerohealth.com'
+        email: 'dev@ripperdoc.com'
       },
       license: {
         name: 'MIT',

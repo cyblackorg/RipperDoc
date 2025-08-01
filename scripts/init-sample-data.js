@@ -7,7 +7,7 @@ const path = require('path');
 const pool = new Pool({
   user: process.env.POSTGRES_USER || 'postgres',
   host: process.env.POSTGRES_HOST || 'db',
-  database: process.env.POSTGRES_DB || 'zero_health',
+  database: process.env.POSTGRES_DB || 'ripperdoc',
   password: process.env.POSTGRES_PASSWORD || 'postgres',
   port: process.env.POSTGRES_PORT || 5432,
 });
@@ -154,7 +154,7 @@ async function initializeSampleData() {
         `INSERT INTO users (first_name, last_name, email, password, role, phone) 
          VALUES ($1, $2, $3, $4, $5, $6) 
          ON CONFLICT (email) DO UPDATE SET password = $4, first_name = $1, last_name = $2, role = $5, phone = $6`,
-        ['Admin', 'User', 'admin@zerohealth.com', hashedPassword, 'admin', '+1-555-0001']
+        ['Admin', 'User', 'admin@ripperdoc.com', hashedPassword, 'admin', '+1-555-0001']
       );
       
       // Add test patient
@@ -183,10 +183,10 @@ async function initializeSampleData() {
       
       // Add additional doctors
       const doctors = [
-        ['Dr. Marshall D.', 'Teach', 'dr.teach@zerohealth.com'],
-        ['Dr. Erwin', 'Smith', 'dr.smith@zerohealth.com'],
-        ['Dr. Tinu', 'Buhari', 'dr.buhari@zerohealth.com'],
-        ['Dr. Acule', 'Mihawk', 'dr.mihawk@zerohealth.com']
+        ['Dr. Marshall D.', 'Teach', 'dr.teach@ripperdoc.com'],
+['Dr. Erwin', 'Smith', 'dr.smith@ripperdoc.com'],
+['Dr. Tinu', 'Buhari', 'dr.buhari@ripperdoc.com'],
+['Dr. Acule', 'Mihawk', 'dr.mihawk@ripperdoc.com']
       ];
       
       for (const [firstName, lastName, email] of doctors) {
@@ -200,8 +200,8 @@ async function initializeSampleData() {
       
       // Add pharmacist accounts  
       const pharmacists = [
-        ['Ugo C', 'Shege', 'ugocshege@zerohealth.com', 'PH12345'],
-        ['Pablo', 'Escrowbar', 'escrowbar@zerohealth.com', 'PH67890']
+        ['Ugo C', 'Shege', 'ugocshege@ripperdoc.com', 'PH12345'],
+['Pablo', 'Escrowbar', 'escrowbar@ripperdoc.com', 'PH67890']
       ];
       
       for (const [firstName, lastName, email, licenseNumber] of pharmacists) {

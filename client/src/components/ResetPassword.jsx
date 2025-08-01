@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import logo from '../assets/logo-light-bg.svg';
+import logo from '../assets/ripperdoc-logo-light-bg.svg';
 
 const ResetPassword = () => {
   const [searchParams] = useSearchParams();
@@ -65,7 +65,7 @@ const ResetPassword = () => {
     <div className="auth-container">
       <div className="auth-box">
         <div className="auth-logo">
-          <img src={logo} alt="Zero Health Logo" className="auth-logo-image" />
+          <img src={logo} alt="RipperDoc Logo" className="auth-logo-image" />
         </div>
         <h2>Reset Your Password</h2>
         <p className="subtitle">Enter your new password below</p>

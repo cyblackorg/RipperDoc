@@ -27,7 +27,7 @@ AsyncStorage.setItem('user_password', password);
 
 // Bad: Hardcoded credentials
 const API_KEY = 'sk-1234567890abcdef';
-const SECRET_KEY = 'zero-health-secret';
+const SECRET_KEY = 'ripperdoc-secret';
 ```
 
 ### M2: Inadequate Supply Chain Security
@@ -97,7 +97,7 @@ const searchPatients = (query) => {
 **Code Examples:**
 ```javascript
 // Bad: HTTP for sensitive operations
-const API_BASE = 'http://zero-health-api.com';
+const API_BASE = 'http://ripperdoc-api.com';
 
 // Bad: Disable certificate validation
 const agent = new https.Agent({
@@ -231,7 +231,7 @@ const ENCRYPTION_KEY = '1234567890123456';
 ## 📁 Project Structure
 
 ```
-zero-health-mobile/
+ripperdoc-mobile/
 ├── src/
 │   ├── components/
 │   │   ├── common/
@@ -358,8 +358,8 @@ zero-health-mobile/
 ### Quick Start
 ```bash
 # Clone and setup
-git clone https://github.com/yourusername/zero-health-mobile.git
-cd zero-health-mobile
+git clone https://github.com/yourusername/ripperdoc-mobile.git
+cd ripperdoc-mobile
 npm install
 
 # iOS

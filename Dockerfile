@@ -1,7 +1,7 @@
 FROM node:16-alpine
 
-# Install PostgreSQL client for database connectivity checks and curl for Ollama API
-RUN apk add --no-cache postgresql-client curl
+# Install PostgreSQL client for database connectivity checks
+RUN apk add --no-cache postgresql-client
 
 WORKDIR /app
 

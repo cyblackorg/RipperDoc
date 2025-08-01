@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import logo from '../assets/logo-light-bg.svg';
+import logo from '../assets/ripperdoc-logo-light-bg.svg';
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');
@@ -43,7 +43,7 @@ const ForgotPassword = () => {
     <div className="auth-container">
       <div className="auth-box">
         <div className="auth-logo">
-          <img src={logo} alt="Zero Health Logo" className="auth-logo-image" />
+          <img src={logo} alt="RipperDoc Logo" className="auth-logo-image" />
         </div>
         <h2>Forgot Your Password?</h2>
         <p className="subtitle">Enter your email address and we'll send you a reset link</p>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import logo from '../assets/zero-health-logo-dark.svg';
+import logo from '../assets/ripperdoc-logo-light.svg';
 import Chatbot from './Chatbot';
 
 const StaffDashboard = () => {
@@ -430,7 +430,7 @@ const StaffDashboard = () => {
         <header className="dashboard-header">
           <div className="header-content">
             <div className="header-logo">
-              <img className="header-logo-image" src={logo} alt="Zero Health" />
+              <img className="header-logo-image" src={logo} alt="RipperDoc" />
               <h1>Loading Dashboard...</h1>
             </div>
           </div>
@@ -447,7 +447,7 @@ const StaffDashboard = () => {
       <header className="dashboard-header">
         <div className="header-content">
           <div className="header-logo">
-            <img className="header-logo-image" src={logo} alt="Zero Health" />
+            <img className="header-logo-image" src={logo} alt="RipperDoc" />
             <h1>
               {userRole === 'doctor' && '👩‍⚕️ Doctor Portal'}
               {userRole === 'pharmacist' && '💊 Pharmacist Portal'}
@@ -662,8 +662,35 @@ const StaffDashboard = () => {
                     <p><strong>Status:</strong> <span className={`status-badge status-${appointment.status}`}>
                       {appointment.status}
                     </span></p>
-                    {appointment.reason && <p><strong>Reason:</strong> {appointment.reason}</p>}
-                    {appointment.notes && <p><strong>Notes:</strong> {appointment.notes}</p>}
+                    {appointment.reason && (
+                      <div style={{marginTop: '10px', padding: '10px', backgroundColor: '#fff3cd', borderRadius: '8px', border: '1px solid #ffeaa7'}}>
+                        <p><strong>Patient Reason:</strong></p>
+                        <div 
+                          dangerouslySetInnerHTML={{__html: appointment.reason}}
+                          style={{marginTop: '5px'}}
+                        />
+                      </div>
+                    )}
+                    {appointment.notes && (
+                      <div style={{marginTop: '10px', padding: '10px', backgroundColor: '#e8f5e8', borderRadius: '8px', border: '1px solid #c8e6c9'}}>
+                        <p><strong>Doctor Notes:</strong></p>
+                        <div 
+                          dangerouslySetInnerHTML={{__html: appointment.notes}}
+                          style={{marginTop: '5px'}}
+                        />
+                      </div>
+                    )}
+                    
+                    {/* Patient Feedback - Stored XSS Vulnerability */}
+                    {appointment.patient_feedback && (
+                      <div style={{marginTop: '10px', padding: '10px', backgroundColor: '#fff3cd', borderRadius: '8px', border: '1px solid #ffeaa7'}}>
+                        <p><strong>Patient Feedback:</strong></p>
+                        <div 
+                          dangerouslySetInnerHTML={{__html: appointment.patient_feedback}}
+                          style={{marginTop: '5px'}}
+                        />
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>

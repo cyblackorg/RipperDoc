@@ -1,4 +1,4 @@
-/* Zero Health Color Palette - CSS Custom Properties */
+/* RipperDoc Color Palette - CSS Custom Properties */
 :root {
   /* Primary Brand Colors */
   --color-teal-zero: #00B6BD;
@@ -355,7 +355,7 @@ html {
 }
 
 .header-logo-image {
-  height: 40px;
+  height: 60px;
   width: auto;
 }
 
@@ -684,7 +684,7 @@ html {
   }
 
   .header-logo-image {
-    height: 35px;
+    height: 50px;
     width: auto;
   }
   
@@ -747,7 +747,7 @@ html {
   }
 
   .header-logo-image {
-    height: 30px;
+    height: 45px;
     width: auto;
   }
 

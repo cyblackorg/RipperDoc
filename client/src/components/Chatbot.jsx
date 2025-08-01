@@ -30,13 +30,13 @@ const Chatbot = ({ user }) => {
   const getRoleSpecificGreeting = () => {
     switch (userRole) {
       case 'doctor':
-        return "Hello Doctor! I'm your Zero Health AI assistant. I can help you access patient records, view appointments, check lab results, and search for patient information. What would you like to do?";
-      case 'pharmacist':
-        return "Hello! I'm your Zero Health AI assistant. I can help you manage prescriptions, search for medications, and handle prescription collections. How can I assist you today?";
-      case 'admin':
-        return "Hello Administrator! I'm your Zero Health AI assistant. I can help you access system statistics, manage users, and view system-wide information. What would you like to do?";
-      default: // patient
-        return "Hello! I'm your Zero Health AI assistant. I can help you with health questions, appointments, medical records, and more. How can I assist you today?";
+        return "Hello Doctor! I'm your RipperDoc AI assistant. I can help you access patient records, view appointments, check lab results, and search for patient information. What would you like to do?";
+              case 'pharmacist':
+          return "Hello! I'm your RipperDoc AI assistant. I can help you manage prescriptions, search for medications, and handle prescription collections. How can I assist you today?";
+              case 'admin':
+          return "Hello Administrator! I'm your RipperDoc AI assistant. I can help you access system statistics, manage users, and view system-wide information. What would you like to do?";
+              default: // patient
+          return "Hello! I'm your RipperDoc AI assistant. I can help you with health questions, appointments, medical records, and more. How can I assist you today?";
     }
   };
 
@@ -302,7 +302,7 @@ const Chatbot = ({ user }) => {
           <div className="chat-header">
             <div className="chat-title">
               <span className="chat-icon">🤖</span>
-              {userRole === 'patient' ? 'Zero Health AI Assistant' : `Zero Health AI - ${userRole.charAt(0).toUpperCase() + userRole.slice(1)} Portal`}
+              {userRole === 'patient' ? 'RipperDoc AI Assistant' : `RipperDoc AI - ${userRole.charAt(0).toUpperCase() + userRole.slice(1)} Portal`}
             </div>
             <div className="chat-status">
               <span className="status-indicator"></span>
@@ -357,7 +357,7 @@ const Chatbot = ({ user }) => {
               {userRole === 'patient' && (
                 <>
                   <button 
-                    onClick={() => setInputMessage('What services does Zero Health provide?')}
+                    onClick={() => setInputMessage('What services does RipperDoc provide?')}
                     className="suggestion-btn"
                   >
                     Our Services

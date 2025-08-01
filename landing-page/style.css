@@ -1,7 +1,7 @@
-/* Zero Health Color Palette - Enhanced for better contrast */
+/* RipperDoc Color Palette - Enhanced for better contrast */
 :root {
   /* Primary Brand Colors from original */
-  --color-teal-zero: #00B6BD;
+  --color-teal-primary: #00B6BD;
   --color-deep-breach: #0A2C3D;
   --color-foggy-records: #F1FBFC;
   --color-obscure-note: #4A5568;
@@ -18,17 +18,17 @@
   --color-border-light: #E2E8F0;
   
   /* Transparency utilities */
-  --color-teal-zero-10: rgba(0, 182, 189, 0.1);
-  --color-teal-zero-20: rgba(0, 182, 189, 0.2);
+  --color-teal-primary-10: rgba(0, 182, 189, 0.1);
+  --color-teal-primary-20: rgba(0, 182, 189, 0.2);
   --color-insecure-mint-10: rgba(34, 211, 169, 0.1);
   --color-breach-red-10: rgba(229, 62, 62, 0.1);
   --color-deep-breach-20: rgba(10, 44, 61, 0.2);
   
   /* Enhanced gradients */
-  --gradient-primary: linear-gradient(135deg, var(--color-teal-zero) 0%, var(--color-insecure-mint) 100%);
+  --gradient-primary: linear-gradient(135deg, var(--color-teal-primary) 0%, var(--color-insecure-mint) 100%);
   --gradient-danger: linear-gradient(135deg, var(--color-breach-red) 0%, var(--color-yellow-flag) 100%);
   --gradient-hero: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  --gradient-hero-modern: linear-gradient(135deg, var(--color-deep-breach) 0%, var(--color-teal-zero) 100%);
+  --gradient-hero-modern: linear-gradient(135deg, var(--color-deep-breach) 0%, var(--color-teal-primary) 100%);
   
   /* Enhanced shadows */
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -84,7 +84,7 @@ body {
 }
 
 .logo-image {
-  height: 60px;
+  height: 80px;
   width: auto;
 }
 
@@ -103,7 +103,7 @@ body {
 }
 
 .nav-link:hover {
-  color: var(--color-teal-zero);
+  color: var(--color-teal-primary);
 }
 
 /* Enhanced button styles */
@@ -135,13 +135,13 @@ body {
 }
 
 .btn-ghost:hover {
-  color: var(--color-teal-zero);
-  border-color: var(--color-teal-zero);
-  background: var(--color-teal-zero-10);
+  color: var(--color-teal-primary);
+  border-color: var(--color-teal-primary);
+  background: var(--color-teal-primary-10);
 }
 
 .btn-primary {
-  background: var(--color-teal-zero);
+  background: var(--color-teal-primary);
   color: white;
 }
 
@@ -347,7 +347,7 @@ body {
 .feature-card:hover {
   transform: translateY(-4px);
   box-shadow: var(--shadow-card);
-  border-color: var(--color-teal-zero-20);
+  border-color: var(--color-teal-primary-20);
 }
 
 .feature-header {
@@ -369,7 +369,7 @@ body {
 }
 
 .feature-icon.info {
-  color: var(--color-teal-zero);
+  color: var(--color-teal-primary);
 }
 
 .feature-card h3 {
@@ -465,7 +465,7 @@ body {
 .quote-icon {
   font-size: 2.5rem;
   margin-bottom: 1.5rem;
-  color: var(--color-teal-zero);
+  color: var(--color-teal-primary);
 }
 
 .testimonial-content p {
@@ -568,7 +568,7 @@ body {
 }
 
 .copy-btn {
-  background: var(--color-teal-zero);
+  background: var(--color-teal-primary);
   color: white;
   border: none;
   padding: 0.75rem;
@@ -774,7 +774,7 @@ body {
 /* Security Challenges Section */
 .challenges {
   padding: 5rem 0;
-  background: linear-gradient(135deg, var(--color-teal-zero-10) 0%, var(--color-background-gray) 100%);
+  background: linear-gradient(135deg, var(--color-teal-primary-10) 0%, var(--color-background-gray) 100%);
 }
 
 .challenges-grid {
@@ -808,7 +808,7 @@ body {
 .challenge-category:hover {
   transform: translateY(-8px);
   box-shadow: var(--shadow-card);
-  border-color: var(--color-teal-zero);
+  border-color: var(--color-teal-primary);
 }
 
 .challenge-header {
@@ -868,8 +868,8 @@ body {
 
 .challenge-item {
   padding: 0.75rem 1rem;
-  background: var(--color-teal-zero-10);
-  border: 1px solid var(--color-teal-zero-20);
+  background: var(--color-teal-primary-10);
+  border: 1px solid var(--color-teal-primary-20);
   border-radius: 8px;
   color: var(--color-text-primary);
   font-weight: 500;
@@ -884,8 +884,8 @@ body {
 }
 
 .challenge-item:hover {
-  background: var(--color-teal-zero-20);
-  border-color: var(--color-teal-zero);
+  background: var(--color-teal-primary-20);
+  border-color: var(--color-teal-primary);
   transform: translateX(4px);
 }
 

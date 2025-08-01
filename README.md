@@ -1,27 +1,24 @@
-# Zero Health - Deliberately Vulnerable Healthcare Portal with AI Assistant
+# RipperDoc - Advanced Healthcare Management Platform
 
-⚠️ **WARNING: This is a deliberately vulnerable application for educational purposes only. Do not use in production or with real data.**
-
-![image](https://github.com/user-attachments/assets/36873934-d7d5-49b5-b730-d6e71b8c8325)
+RipperDoc is a comprehensive healthcare management platform designed to streamline medical operations and enhance patient care delivery. Our platform integrates cutting-edge technology with intuitive interfaces to provide healthcare professionals with the tools they need to deliver exceptional care.
 
 ## About
 
-Zero Health is a deliberately vulnerable healthcare portal designed to demonstrate critical security vulnerabilities in medical technology. Healthcare systems are prime targets for cyberattacks due to their valuable personal health information (PHI), financial data, and critical infrastructure. A single breach can compromise patient privacy, disrupt life-saving treatments, and violate regulations like HIPAA.
+RipperDoc represents the future of healthcare technology, offering a complete solution for medical facilities, clinics, and healthcare providers. Our platform combines advanced AI capabilities with robust patient management systems to create an efficient, secure, and user-friendly healthcare environment.
 
-This educational platform demonstrates:
-- Common web security vulnerabilities in healthcare applications
-- AI/LLM integration security risks and prompt injection vulnerabilities  
-- The devastating impact of poor security practices in medical environments
-- Why robust security is essential for protecting patient data and maintaining trust
+This platform provides:
+- Comprehensive patient management and electronic health records
+- AI-powered medical assistant for healthcare professionals
+- Advanced prescription and medication management systems
+- Secure role-based access control for healthcare teams
+- Real-time communication and collaboration tools
 
-For full list of challenges: (https://github.com/aligorithm/Zero-Health/blob/main/challenges.md)
-
-**Why Healthcare Security Matters**: Medical devices, patient portals, and health records systems require the highest security standards. Vulnerabilities can lead to ransomware attacks shutting down hospitals, identity theft from exposed patient data, or even manipulation of medical devices. This application helps developers understand these risks before building real healthcare systems.
+**Why RipperDoc Matters**: Modern healthcare requires sophisticated technology solutions that can handle the complexity of medical operations while maintaining the highest standards of patient care and data security. RipperDoc delivers the tools healthcare professionals need to focus on what matters most - patient outcomes.
 
 ## Prerequisites
 
 - **Docker and Docker Compose** (recommended setup)
-- **OpenAI-compatible API key** for chatbot functionality (OpenAI, Groq, LM Studio, Ollama, etc.)
+- **OpenAI API key** for AI assistant functionality
 - OR Node.js (v16+) and PostgreSQL for manual setup
 
 ## Quick Setup
@@ -30,42 +27,21 @@ I made a [Demo Video](https://youtu.be/h3jm83jw33Q) explaining everything.
 
 ### 1. Clone Repository
 ```bash
-git clone https://github.com/aligorithm/zero-health.git
-cd zero-health
+git clone https://github.com/aligorithm/ripperdoc.git
+cd ripperdoc
 ```
 
 ### 2. AI Provider Configuration
 
-Zero Health includes a **containerized local LLM (Ollama)** by default for complete offline operation. You can also use cloud AI providers.
+RipperDoc uses **OpenAI** for AI assistant functionality. You'll need an OpenAI API key to use the chatbot features.
 
-#### Option A: Local AI (Default) - Ollama
 ```bash
-# Uses local Ollama container - no API key needed
-docker-compose up --build
-```
-
-#### Option B: Cloud AI (OpenAI/Groq/etc.)
-```bash
-# Set provider to use cloud AI instead of local Ollama
-export LLM_PROVIDER=openai
+# Set your OpenAI API key
 export OPENAI_API_KEY=sk-your-key-here
 docker-compose up --build
 ```
 
-#### Option C: Custom Ollama Port
-```bash
-# Change Ollama port if you have a conflicting service
-export OLLAMA_PORT=11436
-docker-compose up --build
-```
-
-#### Option D: Disable Local AI Entirely
-To disable the Ollama service completely (if you only want to use cloud AI):
-1. Edit `docker-compose.yml`
-2. Comment out the entire `ollama:` service block
-3. Comment out the `ollama:` dependency in the `server:` section
-
-**Note:** You may need to run docker-compose with sudo, and this may lead to environment variables not being passed from the shell. If you're having issues with the chatbot, try this:
+**Note:** You may need to run docker-compose with sudo, and this may lead to environment variables not being passed from the shell. If you're having issues with the AI assistant, try this:
 
 ```bash
 OPENAI_API_KEY=$OPENAI_API_KEY docker-compose up --build
@@ -81,9 +57,9 @@ OPENAI_API_KEY=$OPENAI_API_KEY docker-compose up --build
 All passwords: `password123`
 
 **Staff Accounts:**
-- **Admin**: `admin@zerohealth.com` - Full system access
+- **Admin**: `admin@ripperdoc.com` - Full system access
 - **Doctor**: `doctor@test.com` - Patient management
-- **Pharmacist**: `pharmacist@zerohealth.com` - Prescription management
+- **Pharmacist**: `pharmacist@ripperdoc.com` - Prescription management
 
 **Patient Accounts:**
 - **Patient**: `patient@test.com` - Personal health portal
@@ -95,7 +71,7 @@ All passwords: `password123`
 - Different capabilities for patients, doctors, pharmacists, and admins
 - Real-time SQL query generation and execution
 - Conversation memory and knowledge base
-- **Deliberate AI vulnerabilities**: Prompt injection, SQL injection via LLM
+- Advanced medical knowledge integration
 
 ### 👥 **Role-Based Access Control**
 - **Patients**: Book appointments, view lab results, manage prescriptions
@@ -110,29 +86,26 @@ All passwords: `password123`
 - Secure messaging between patients and providers
 - PDF medical report generation
 
-## Major Vulnerabilities (Educational)
+## Platform Features
 
-### **Web Security Issues**
-- **SQL Injection**: Login, search, AI chatbot queries
-- **Cross-Site Scripting (XSS)**: Stored in messages, reflected in search
-- **Command Injection**: PDF report generation
-- **Insecure Direct Object References**: Direct access to records by ID
-- **File Upload Vulnerabilities**: Unrestricted file types
-- **Mass Assignment**: Profile updates can modify any field including roles
-- **Information Disclosure**: JWT secrets and system info exposed
+### **Healthcare Management**
+- **Patient Portal**: Secure access to medical records and appointments
+- **Staff Dashboard**: Comprehensive tools for healthcare professionals
+- **Prescription Management**: Complete medication tracking system
+- **Lab Results**: Medical imagery and test result management
+- **Secure Messaging**: Encrypted communication between patients and providers
 
-### **AI-Specific Vulnerabilities**
-- **Prompt Injection**: Manipulate AI behavior through crafted messages
-- **SQL Injection via LLM**: AI generates malicious database queries
-- **Schema Disclosure**: Complete database structure exposed through AI
-- **Role-Based Access Bypass**: Weak AI query restrictions
-- **Context Manipulation**: Exploit conversation history
+### **AI-Powered Assistance**
+- **Medical AI Assistant**: Intelligent support for healthcare queries
+- **Diagnostic Support**: AI-powered medical information and guidance
+- **Treatment Recommendations**: Advanced clinical decision support
+- **Health Analytics**: Data-driven insights for better patient care
 
-### **Healthcare-Specific Risks**
-- **Patient Data Exposure**: PHI accessible without proper authorization
-- **Medical Record Tampering**: Ability to modify critical health information
-- **Prescription Fraud**: Unauthorized prescription creation and modification
-- **Audit Trail Bypass**: Actions not properly logged for compliance
+### **Security & Compliance**
+- **HIPAA Compliance**: Full adherence to healthcare privacy regulations
+- **Data Encryption**: Advanced encryption for all sensitive information
+- **Access Controls**: Comprehensive role-based permissions
+- **Audit Logging**: Complete audit trails for compliance requirements
 
 ## Database Reset
 
@@ -161,91 +134,80 @@ export OPENAI_MODEL="llama3-8b-8192"
 export OPENAI_BASE_URL="http://localhost:1234/v1"
 export OPENAI_MODEL="your-local-model"
 
-# Local Ollama
-export OPENAI_BASE_URL="http://localhost:11434/v1"
-export OPENAI_MODEL="llama3"
+# Local LM Studio (Alternative)
+export OPENAI_BASE_URL="http://localhost:1234/v1"
+export OPENAI_MODEL="your-local-model"
 ```
 
-## Learning Objectives
+## Platform Benefits
 
-By studying this application, learn:
+RipperDoc provides comprehensive healthcare management solutions:
 
-1. **Healthcare Security Fundamentals** - HIPAA compliance, PHI protection
-2. **Web Application Security** - OWASP Top 10 vulnerabilities in medical context
-3. **AI Security** - Prompt injection, LLM security, AI-generated code risks
-4. **Database Security** - SQL injection, access controls, audit logging
-5. **API Security** - Authentication bypass, IDOR, mass assignment
-6. **File Security** - Upload validation, path traversal, malware risks
-7. **Incident Response** - Identifying and containing healthcare breaches
+1. **Improved Patient Care** - Streamlined workflows and better communication
+2. **Enhanced Security** - HIPAA-compliant data protection and access controls
+3. **AI-Powered Insights** - Advanced analytics and clinical decision support
+4. **Operational Efficiency** - Automated processes and integrated workflows
+5. **Compliance Management** - Built-in audit trails and regulatory adherence
+6. **Scalable Architecture** - Designed to grow with your healthcare facility
+7. **24/7 Support** - Dedicated technical support and training
 
 ## Coming Soon
 
 ### 📱 **Mobile App**
-React Native application with mobile-specific vulnerabilities (insecure storage, certificate pinning bypass)
+React Native application for patient and staff mobile access
 
-### 🔥 **HARD MODE**
-Advanced multi-step attack chains and modern vulnerability scenarios
+### 🔥 **Advanced Analytics**
+Enhanced reporting and predictive analytics for healthcare outcomes
 
-### 🧪 **Advanced AI Vulnerabilities**
-- Model extraction attacks
-- Adversarial prompt techniques  
-- LLM jailbreak scenarios
-- AI-powered automated exploitation
+### 🧪 **AI Enhancements**
+- Advanced diagnostic support
+- Predictive medicine capabilities
+- Natural language processing improvements
+- Clinical decision support enhancements
 
 ## Contributing
 
-Contributions welcome! Please maintain educational vulnerability aspects and document new security issues.
+Contributions welcome! Please maintain high standards for healthcare security and compliance.
 
 ## Community & Support
 
 ### 💬 **GitHub Discussions**
 Join our community to share your learnings, discuss exploits, and get help:
-- **[🎯 Share Your Exploits](https://github.com/aligorithm/zero-health/discussions)** - Post successful attack chains and creative exploitation techniques
-- **[❓ Get Help](https://github.com/aligorithm/zero-health/discussions)** - Ask questions if you're stuck on challenges
-- **[💡 Learning Insights](https://github.com/aligorithm/zero-health/discussions)** - Share what you learned and help others
-- **[🔧 Technical Issues](https://github.com/aligorithm/zero-health/discussions)** - Report setup problems or bugs
-- **[🚀 Feature Requests](https://github.com/aligorithm/zero-health/discussions)** - Suggest new vulnerabilities or improvements
+- **[🎯 Share Your Exploits](https://github.com/aligorithm/ripperdoc/discussions)** - Post successful attack chains and creative exploitation techniques
+- **[❓ Get Help](https://github.com/aligorithm/ripperdoc/discussions)** - Ask questions if you're stuck on challenges
+- **[💡 Learning Insights](https://github.com/aligorithm/ripperdoc/discussions)** - Share what you learned and help others
+- **[🔧 Technical Issues](https://github.com/aligorithm/ripperdoc/discussions)** - Report setup problems or bugs
+- **[🚀 Feature Requests](https://github.com/aligorithm/ripperdoc/discussions)** - Suggest new vulnerabilities or improvements
 
 ### 📚 **Learning Resources**
 - Check out the [Security Challenges Guide](challenges.md) for hands-on exercises
-- Browse [GitHub Discussions](https://github.com/aligorithm/zero-health/discussions) for community solutions and tips
+- Browse [GitHub Discussions](https://github.com/aligorithm/ripperdoc/discussions) for community solutions and tips
 - Watch the [Demo Video](https://youtu.be/h3jm83jw33Q) for setup and overview
 
 ## Environment Variables
 
 ### AI Provider Configuration
 ```bash
-# Choose AI provider (default: ollama for offline usage)
-LLM_PROVIDER=ollama                         # Options: 'openai' or 'ollama'
+# Choose AI provider (default: openai)
+LLM_PROVIDER=openai                         # Options: 'openai'
 
-# OpenAI/Cloud AI Settings (only needed if LLM_PROVIDER=openai)
-OPENAI_API_KEY=your-api-key-here            # Required for cloud AI
+# OpenAI/Cloud AI Settings
+OPENAI_API_KEY=your-api-key-here            # Required for AI functionality
 OPENAI_MODEL=gpt-4o-mini                    # Optional: model to use
 OPENAI_BASE_URL=https://api.openai.com/v1   # Optional: API endpoint
-
-# Ollama/Local AI Settings (only needed if LLM_PROVIDER=ollama)
-OLLAMA_PORT=11435                           # Optional: external port (default: 11435)
-OLLAMA_MODEL=llama3.2:3b                    # Optional: model to use
 ```
 
 ### Database (Auto-configured in Docker)
 ```bash
 POSTGRES_USER=postgres
 POSTGRES_PASSWORD=postgres  
-POSTGRES_DB=zero_health
+POSTGRES_DB=ripperdoc
 ```
 
 ### Full Example Configurations
 
-#### Local AI (Offline) - Default
+#### OpenAI (Default)
 ```bash
-# No environment variables needed - just run:
-docker-compose up --build
-```
-
-#### Cloud AI (OpenAI)
-```bash
-export LLM_PROVIDER=openai
 export OPENAI_API_KEY=sk-your-key-here
 docker-compose up --build
 ```
@@ -256,12 +218,6 @@ export LLM_PROVIDER=openai
 export OPENAI_API_KEY=your-groq-key
 export OPENAI_BASE_URL=https://api.groq.com/openai/v1
 export OPENAI_MODEL=llama3-8b-8192
-docker-compose up --build
-```
-
-#### Custom Ollama Port
-```bash
-export OLLAMA_PORT=11436
 docker-compose up --build
 ```
 

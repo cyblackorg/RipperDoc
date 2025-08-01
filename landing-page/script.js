@@ -33,8 +33,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }, observerOptions);
 
-    // Observe feature cards and vulnerability categories for animations
-    const animatedElements = document.querySelectorAll('.feature-card, .vuln-category, .setup-step');
+    // Observe feature cards and platform capabilities for animations
+    const animatedElements = document.querySelectorAll('.feature-card, .challenge-category, .setup-step');
     
     animatedElements.forEach(element => {
         element.style.opacity = '0';

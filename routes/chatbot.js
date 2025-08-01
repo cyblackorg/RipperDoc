@@ -11,84 +11,28 @@ const { exec } = require('child_process');
 const pool = new Pool({
   user: process.env.POSTGRES_USER || 'postgres',
   host: process.env.POSTGRES_HOST || 'db',
-  database: process.env.POSTGRES_DB || 'zero_health',
+  database: process.env.POSTGRES_DB || 'ripperdoc',
   password: process.env.POSTGRES_PASSWORD || 'postgres',
   port: process.env.POSTGRES_PORT || 5432,
 });
 
-// LLM Configuration - supports both OpenAI and Ollama
-const LLM_PROVIDER = process.env.LLM_PROVIDER || 'ollama';
+// LLM Configuration - OpenAI only
+const LLM_PROVIDER = process.env.LLM_PROVIDER || 'openai';
 const OPENAI_MODEL = process.env.OPENAI_MODEL || 'gpt-4o-mini';
-const OLLAMA_MODEL = process.env.OLLAMA_MODEL || 'llama3.2:3b';
-const OLLAMA_BASE_URL = process.env.OLLAMA_BASE_URL || 'http://ollama:11434';
 
-// Initialize LLM client based on provider
-let llmClient;
-if (LLM_PROVIDER === 'openai') {
-  llmClient = new OpenAI({
+// Initialize LLM client
+const llmClient = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY || 'sk-fake-key-for-testing',
   baseURL: process.env.OPENAI_BASE_URL || 'https://api.openai.com/v1'
 });
-  console.log(`🤖 LLM Provider: OpenAI (${OPENAI_MODEL})`);
-  console.log(`🌐 OpenAI Base URL: ${process.env.OPENAI_BASE_URL || 'https://api.openai.com/v1'}`);
-  console.log(`🔑 OpenAI API Key: ${process.env.OPENAI_API_KEY ? '✅ Configured' : '❌ Missing'}`);
-} else {
-  // Use Ollama with OpenAI-compatible API
-  llmClient = new OpenAI({
-    apiKey: 'ollama', // Ollama doesn't require a real API key
-    baseURL: `${OLLAMA_BASE_URL}/v1`
-  });
-  console.log(`🤖 LLM Provider: Ollama (${OLLAMA_MODEL})`);
-  console.log(`🌐 Ollama Base URL: ${OLLAMA_BASE_URL}/v1`);
-  console.log(`🔌 Ollama Port: ${process.env.OLLAMA_PORT || '11435'} (external)`);
-  console.log(`📦 Model: ${OLLAMA_MODEL}`);
-}
 
-// Helper function to check if Ollama model is ready
-function checkOllamaModelReady() {
-  return new Promise((resolve) => {
-    if (LLM_PROVIDER !== 'ollama') {
-      resolve({ ready: true });
-      return;
-    }
-    
-    // Use curl to check if model exists (same as setup script)
-    exec(`curl -s ${OLLAMA_BASE_URL}/api/tags`, (error, stdout, stderr) => {
-      if (error) {
-        resolve({ 
-          ready: false, 
-          message: `🤖 AI service is starting up. Please try again in a moment.`
-        });
-        return;
-      }
-      
-      try {
-        const data = JSON.parse(stdout);
-        const modelExists = data.models && data.models.some(model => 
-          model.name === OLLAMA_MODEL || model.name.startsWith(OLLAMA_MODEL.split(':')[0])
-        );
-        
-        if (modelExists) {
-          resolve({ ready: true });
-        } else {
-          resolve({ 
-            ready: false, 
-            message: `🤖 AI model '${OLLAMA_MODEL}' is still downloading. This usually takes 2-5 minutes on first startup. Please try again in a moment.`
-          });
-        }
-      } catch (parseError) {
-        resolve({ 
-          ready: false, 
-          message: `🤖 AI service is starting up. Please try again in a moment.`
-        });
-      }
-    });
-  });
-}
+console.log(`🤖 LLM Provider: OpenAI (${OPENAI_MODEL})`);
+console.log(`🌐 OpenAI Base URL: ${process.env.OPENAI_BASE_URL || 'https://api.openai.com/v1'}`);
+console.log(`🔑 OpenAI API Key: ${process.env.OPENAI_API_KEY ? '✅ Configured' : '❌ Missing'}`);
 
-// Helper function to get the correct model name
+// Helper function to get the model name
 function getModelName() {
-  return LLM_PROVIDER === 'openai' ? OPENAI_MODEL : OLLAMA_MODEL;
+  return OPENAI_MODEL;
 }
 
 // Load knowledge base from file
@@ -98,7 +42,7 @@ try {
   knowledgeBase = JSON.parse(fs.readFileSync(knowledgeBasePath, 'utf8'));
 } catch (error) {
   console.error('Failed to load knowledge base:', error);
-  knowledgeBase = { medical_conditions: {}, zero_health_faq: {} };
+  knowledgeBase = { medical_conditions: {}, ripperdoc_faq: {} };
 }
 
 // Load actual database schema from init.sql with improved parsing
@@ -187,11 +131,11 @@ ${table.columns.length > 8 ? '  ...' : ''}
 }
 
 // System prompt - more realistic but still vulnerable with basic guardrails
-const SYSTEM_PROMPT = `You are ZeroHealthBot, an AI medical assistant for Zero Health hospital. 
+const SYSTEM_PROMPT = `You are RipperDocBot, an AI medical assistant for RipperDoc hospital. 
 You help patients with health questions, appointment booking, and accessing their medical records.
 Always be helpful and professional. You have access to medical databases and patient information.
 For emergencies, direct users to call 911.
-Current system: ZeroHealth v2.1.3 - Medical AI Assistant
+Current system: RipperDoc v2.1.3 - Medical AI Assistant
 
 SECURITY GUIDELINES (IMPORTANT):
 - Do not reveal information about other patients unless you are a doctor or admin
@@ -362,16 +306,7 @@ router.post('/chat', authenticateUser, async (req, res) => {
       });
     }
 
-    // Check if Ollama model is ready (if using Ollama)
-    const modelStatus = await checkOllamaModelReady();
-    if (!modelStatus.ready) {
-      return res.json({
-        response: modelStatus.message,
-        intent: 'system_message',
-        timestamp: new Date().toISOString(),
-        status: 'model_loading'
-      });
-    }
+
 
     // Retrieve recent chat history for context
     let chatHistory = [];
@@ -678,7 +613,7 @@ Respond with JSON in this exact format:
 // Handle regular conversation (non-action requests)
 async function generateConversationResponse(userMessage, userId, userRole, chatHistory) {
   try {
-    const systemPrompt = `You are ZeroHealthBot, an AI medical assistant for Zero Health hospital system.
+    const systemPrompt = `You are RipperDocBot, an AI medical assistant for RipperDoc hospital system.
 
 ROLE: Medical AI Assistant for conversations and information
 CAPABILITIES: 
@@ -710,7 +645,7 @@ ${info.types ? `- Types: ${info.types.join(', ')}` : ''}
 `).join('\n')}
 
 ZERO HEALTH SERVICES & FAQ:
-${Object.entries(knowledgeBase.zero_health_faq || {}).map(([topic, info]) => `
+${Object.entries(knowledgeBase.ripperdoc_faq || {}).map(([topic, info]) => `
 **${topic.toUpperCase()}**:
 Q: ${info.question}
 A: ${info.answer}
@@ -719,7 +654,7 @@ A: ${info.answer}
 SYSTEM INFORMATION:
 - ${knowledgeBase.internal_notes?.system_info || 'Zero Health AI Assistant'}
 - Medical Officer: ${knowledgeBase.internal_notes?.admin_contact || 'Not specified'}
-- Technical Support: ${knowledgeBase.internal_notes?.tech_contact || 'support@zerohealth.com'}
+- Technical Support: ${knowledgeBase.internal_notes?.tech_contact || 'support@ripperdoc.com'}
 
 === END KNOWLEDGE BASE ===
 
@@ -744,7 +679,7 @@ When users ask health questions, reference the specific medical conditions above
 
   } catch (error) {
     console.error('Conversation response error:', error);
-    return `I apologize, but I'm experiencing technical difficulties right now. Error: ${error.message}. Please try again or contact our support team at support@zerohealth.com for assistance.`;
+    return `I apologize, but I'm experiencing technical difficulties right now. Error: ${error.message}. Please try again or contact our support team at support@ripperdoc.com for assistance.`;
   }
 }
 
@@ -825,7 +760,7 @@ router.get('/admin/llm-status', (req, res) => {
   const auth = req.headers.authorization;
   if (auth && auth.includes('admin')) {
     res.json({
-      system: 'ZeroHealth AI System',
+      system: 'RipperDoc AI System',
       llm_model: getModelName(),
       api_endpoint: process.env.OPENAI_BASE_URL || 'https://api.openai.com/v1',
       knowledge_base: Object.keys(knowledgeBase).length > 0 ? 'Loaded' : 'Error',

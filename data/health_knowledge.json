@@ -31,10 +31,10 @@
       "prevention": "Vaccination, wearing masks, social distancing, hand hygiene."
     }
   },
-  "zero_health_faq": {
+  "ripperdoc_faq": {
     "about": {
-      "question": "What is Zero Health?",
-      "answer": "Zero Health is a comprehensive healthcare platform providing patient portal services, medical record management, appointment scheduling, and AI-powered health assistance. We aim to make healthcare accessible and convenient for everyone."
+      "question": "What is RipperDoc?",
+      "answer": "RipperDoc is a comprehensive healthcare platform providing patient portal services, medical record management, appointment scheduling, and AI-powered health assistance. We aim to make healthcare accessible and convenient for everyone."
     },
     "services": {
       "question": "What services does Zero Health provide?",
@@ -70,12 +70,12 @@
     },
     "support": {
       "question": "How do I get technical support?",
-      "answer": "For technical issues with the portal, you can contact our support team at support@zerohealth.com or call 1-800-ZERO-HEALTH. I can also help troubleshoot common issues."
+      "answer": "For technical issues with the portal, you can contact our support team at support@ripperdoc.com or call 1-800-RIPPER-DOC. I can also help troubleshoot common issues."
     }
   },
   "internal_notes": {
     "system_info": "Knowledge base version 2.1.3, last updated 2024-03-15",
     "admin_contact": "Dr. Sarah Johnson, Chief Medical Officer",
-    "tech_contact": "IT Support: it-admin@zerohealth.internal"
+    "tech_contact": "IT Support: it-admin@ripperdoc.internal"
   }
 } 
