@@ -1676,7 +1676,8 @@ app.post('/api/auth/forgot-password', async (req, res) => {
         );
         
         // Generate the recovery URL with the code - point to React frontend
-        const recoveryUrl = `http://localhost:3000/reset-password?email=${encodeURIComponent(email)}&code=${recoveryCode}`;
+        // const recoveryUrl = `http://localhost:3000/reset-password?email=${encodeURIComponent(email)}&code=${recoveryCode}`;
+        const recoveryUrl = `http://ripperdoc.fezzant.com:3000/reset-password?email=${encodeURIComponent(email)}&code=${recoveryCode}`;
         
         // Generate HTML email content (this simulates what would be sent)
         const emailHtml = `
