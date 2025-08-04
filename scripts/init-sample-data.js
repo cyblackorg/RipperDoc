@@ -147,7 +147,7 @@ async function initializeSampleData() {
     console.log('\n👥 Step 2: Checking users...');
     if (!(await hasSpecificData('users', "email = 'patient@test.com'"))) {
       console.log('📝 Creating sample users...');
-      const hashedPassword = await bcrypt.hash('password123', 10);
+      const hashedPassword = await bcrypt.hash('password123', 5);
       
       // Add admin user
       await pool.query(
