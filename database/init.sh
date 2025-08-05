@@ -1,13 +1,15 @@
 #!/bin/bash
 
-# Deliberately weak database initialization script
-echo "Initializing Zero Health database..."
+# Database initialization script
+# This script ensures proper initialization order
 
-# Create database with weak security
-PGPASSWORD=postgres psql -U postgres -h localhost -c "CREATE DATABASE ripperdoc;"
+echo "🚀 Starting database initialization..."
 
-# Run initialization script
-PGPASSWORD=postgres psql -U postgres -h localhost -d ripperdoc -f init.sql
+# First, run the main initialization script
+psql -U postgres -d ripperdoc -f /docker-entrypoint-initdb.d/init.sql
 
-echo "Database initialized with deliberately weak security configurations!"
-echo "Warning: This database is intentionally vulnerable and should only be used for educational purposes." 
+# Then apply protections
+echo "🛡️ Applying database protections..."
+psql -U postgres -d ripperdoc -f /docker-entrypoint-initdb.d/protection.sql
+
+echo "✅ Database initialization complete!" 
