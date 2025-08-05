@@ -972,6 +972,95 @@ app.get('/api/admin/users', verifyToken, async (req, res) => {
     }
 });
 
+// Create new user (admin only)
+app.post('/api/admin/users', verifyToken, async (req, res) => {
+    try {
+        if (req.user.role !== 'admin') {
+            return res.status(403).json({ error: 'Admin access required' });
+        }
+        
+        const { email, password, role, first_name, last_name, phone, specialization, license_number } = req.body;
+        
+        // Validate required fields
+        if (!email || !password || !role) {
+            return res.status(400).json({ error: 'Email, password, and role are required' });
+        }
+        
+        // Weak password validation
+        if (password.length < 3) {
+            return res.status(400).json({ error: 'Password must be at least 3 characters' });
+        }
+        
+        // Hash password with 5 rounds (matching registration)
+        const hashedPassword = await bcrypt.hash(password, 5);
+        
+        // SQL injection vulnerable query
+        const result = await pool.query(
+            `INSERT INTO users (email, password, role, first_name, last_name, phone, specialization, license_number) 
+             VALUES ('${email}', '${hashedPassword}', '${role}', '${first_name || ''}', '${last_name || ''}', '${phone || ''}', '${specialization || ''}', '${license_number || ''}') 
+             RETURNING id, email, role, first_name, last_name`
+        );
+        
+        res.status(201).json(result.rows[0]);
+    } catch (error) {
+        console.error('Create user error:', error);
+        res.status(500).json({ error: 'Failed to create user' });
+    }
+});
+
+// Update user role (admin only)
+app.put('/api/admin/users/:userId/role', verifyToken, async (req, res) => {
+    try {
+        if (req.user.role !== 'admin') {
+            return res.status(403).json({ error: 'Admin access required' });
+        }
+        
+        const { userId } = req.params;
+        const { role } = req.body;
+        
+        if (!role) {
+            return res.status(400).json({ error: 'Role is required' });
+        }
+        
+        // SQL injection vulnerable query
+        const result = await pool.query(
+            `UPDATE users SET role = '${role}' WHERE id = ${userId} RETURNING id, email, role, first_name, last_name`
+        );
+        
+        if (result.rows.length === 0) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+        
+        res.json(result.rows[0]);
+    } catch (error) {
+        console.error('Update user role error:', error);
+        res.status(500).json({ error: 'Failed to update user role' });
+    }
+});
+
+// Delete user (admin only)
+app.delete('/api/admin/users/:userId', verifyToken, async (req, res) => {
+    try {
+        if (req.user.role !== 'admin') {
+            return res.status(403).json({ error: 'Admin access required' });
+        }
+        
+        const { userId } = req.params;
+        
+        // SQL injection vulnerable query
+        const result = await pool.query(`DELETE FROM users WHERE id = ${userId} RETURNING id`);
+        
+        if (result.rows.length === 0) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+        
+        res.json({ message: 'User deleted successfully' });
+    } catch (error) {
+        console.error('Delete user error:', error);
+        res.status(500).json({ error: 'Failed to delete user' });
+    }
+});
+
 // ===== USER PROFILE UPDATE - Mass Assignment vulnerability =====
 app.put('/api/users/profile', verifyToken, async (req, res) => {
     try {

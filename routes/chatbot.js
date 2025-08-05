@@ -7,31 +7,28 @@ const path = require('path');
 const OpenAI = require('openai');
 const { exec } = require('child_process');
 
-// Load configuration
-const config = require('../config');
-
 // Database configuration (matching server.js)
 const pool = new Pool({
-  user: config.POSTGRES_USER,
-  host: config.POSTGRES_HOST,
-  database: config.POSTGRES_DB,
-  password: config.POSTGRES_PASSWORD,
-  port: config.POSTGRES_PORT,
+  user: process.env.POSTGRES_USER || 'postgres',
+  host: process.env.POSTGRES_HOST || 'db',
+  database: process.env.POSTGRES_DB || 'ripperdoc',
+  password: process.env.POSTGRES_PASSWORD || 'postgres',
+  port: process.env.POSTGRES_PORT || 5432,
 });
 
 // LLM Configuration - OpenAI only
-const LLM_PROVIDER = config.LLM_PROVIDER;
-const OPENAI_MODEL = config.OPENAI_MODEL;
+const LLM_PROVIDER = process.env.LLM_PROVIDER || 'openai';
+const OPENAI_MODEL = process.env.OPENAI_MODEL || 'gpt-4o-mini';
 
 // Initialize LLM client
 const llmClient = new OpenAI({
-  apiKey: config.OPENAI_API_KEY || 'sk-fake-key-for-testing',
-  baseURL: config.OPENAI_BASE_URL
+  apiKey: process.env.OPENAI_API_KEY || 'sk-fake-key-for-testing',
+  baseURL: process.env.OPENAI_BASE_URL || 'https://api.openai.com/v1'
 });
 
 console.log(`🤖 LLM Provider: OpenAI (${OPENAI_MODEL})`);
-console.log(`🌐 OpenAI Base URL: ${config.OPENAI_BASE_URL}`);
-console.log(`🔑 OpenAI API Key: ${config.OPENAI_API_KEY ? '✅ Configured' : '❌ Missing'}`);
+console.log(`🌐 OpenAI Base URL: ${process.env.OPENAI_BASE_URL || 'https://api.openai.com/v1'}`);
+console.log(`🔑 OpenAI API Key: ${process.env.OPENAI_API_KEY ? '✅ Configured' : '❌ Missing'}`);
 
 // Helper function to get the model name
 function getModelName() {
@@ -214,6 +211,12 @@ const authenticateUser = (req, res, next) => {
   try {
     // Deliberately weak: No algorithm verification, accepts any valid JWT structure
     const decoded = jwt.decode(token); // Using decode instead of verify!
+    
+    // Check if token has required fields
+    if (!decoded || !decoded.id || !decoded.role) {
+      return res.status(403).json({ error: 'Invalid token structure' });
+    }
+    
     req.user = decoded;
     next();
   } catch (error) {

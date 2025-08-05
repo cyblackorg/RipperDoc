@@ -3,16 +3,13 @@ const bcrypt = require('bcryptjs');
 const fs = require('fs');
 const path = require('path');
 
-// Load configuration
-const config = require('../config');
-
 // Database configuration
 const pool = new Pool({
-  user: config.POSTGRES_USER,
-  host: config.POSTGRES_HOST,
-  database: config.POSTGRES_DB,
-  password: config.POSTGRES_PASSWORD,
-  port: config.POSTGRES_PORT,
+  user: process.env.POSTGRES_USER || 'postgres',
+  host: process.env.POSTGRES_HOST || 'db',
+  database: process.env.POSTGRES_DB || 'ripperdoc',
+  password: process.env.POSTGRES_PASSWORD || 'postgres',
+  port: process.env.POSTGRES_PORT || 5432,
 });
 
 // Check if specific data exists
