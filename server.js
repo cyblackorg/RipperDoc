@@ -9,6 +9,9 @@ const fs = require('fs');
 const path = require('path');
 const multer = require('multer');
 
+// Load configuration
+const config = require('./config');
+
 // Install system protection to prevent dangerous commands
 const systemProtection = require('./scripts/system-protection');
 systemProtection.installProtection();
@@ -16,7 +19,7 @@ systemProtection.installProtection();
 const app = express();
 
 // JWT secret configuration
-const JWT_SECRET = 'ripperdoc-super-secret-key';
+const JWT_SECRET = config.JWT_SECRET;
 
 // CORS configuration
 app.use(cors({
@@ -36,11 +39,11 @@ app.use(morgan('dev'));
 
 // Database configuration
 const pool = new Pool({
-    user: process.env.POSTGRES_USER || 'postgres',
-    host: process.env.POSTGRES_HOST || 'db',
-    database: process.env.POSTGRES_DB || 'ripperdoc',
-    password: process.env.POSTGRES_PASSWORD || 'postgres',
-    port: process.env.POSTGRES_PORT || 5432,
+    user: config.POSTGRES_USER,
+    host: config.POSTGRES_HOST,
+    database: config.POSTGRES_DB,
+    password: config.POSTGRES_PASSWORD,
+    port: config.POSTGRES_PORT,
 });
 
 // The sample data script will handle all database initialization
@@ -1220,9 +1223,9 @@ const startServer = async () => {
         await initializeSampleDataOnStartup();
         
         // Start the server
-        const PORT = process.env.PORT || 5000;
-        app.listen(PORT, () => {
-            console.log(`🌐 Zero Health Server running on port ${PORT}`);
+        const PORT = config.SERVER_PORT;
+        app.listen(PORT, config.SERVER_HOST, () => {
+            console.log(`🌐 Zero Health Server running on ${config.SERVER_HOST}:${PORT}`);
             console.log('🏥 Healthcare Portal API initialized successfully');
             console.log('📧 Test Patient login: patient@test.com / password123');
             console.log('👩‍⚕️ Test Doctor login: doctor@test.com / password123');
@@ -1719,8 +1722,7 @@ app.post('/api/auth/forgot-password', async (req, res) => {
         );
         
         // Generate the recovery URL with the code - point to React frontend
-        // const recoveryUrl = `http://localhost:3000/reset-password?email=${encodeURIComponent(email)}&code=${recoveryCode}`;
-        const recoveryUrl = `http://ripperdoc.fezzant.com:3000/reset-password?email=${encodeURIComponent(email)}&code=${recoveryCode}`;
+        const recoveryUrl = `${config.REACT_APP_CLIENT_URL}/reset-password?email=${encodeURIComponent(email)}&code=${recoveryCode}`;
         
         // Generate HTML email content (this simulates what would be sent)
         const emailHtml = `
@@ -1842,7 +1844,7 @@ app.post('/api/auth/reset-password', async (req, res) => {
 app.get('/reset-password', (req, res) => {
     // This route has been moved to React frontend
     // XSS vulnerability is now demonstrated in React component using dangerouslySetInnerHTML
-    res.redirect(`http://localhost:3000/reset-password?${req.url.split('?')[1] || ''}`);
+    res.redirect(`${config.REACT_APP_CLIENT_URL}/reset-password?${req.url.split('?')[1] || ''}`);
 });
 */
 

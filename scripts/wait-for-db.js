@@ -1,12 +1,15 @@
 const { Pool } = require('pg');
 
+// Load configuration
+const config = require('../config');
+
 const waitForDatabase = async (maxRetries = 30, retryInterval = 2000) => {
     const pool = new Pool({
-        user: process.env.POSTGRES_USER || 'postgres',
-        host: process.env.POSTGRES_HOST || 'db',
-        database: process.env.POSTGRES_DB || 'ripperdoc',
-        password: process.env.POSTGRES_PASSWORD || 'postgres',
-        port: process.env.POSTGRES_PORT || 5432,
+        user: config.POSTGRES_USER,
+        host: config.POSTGRES_HOST,
+        database: config.POSTGRES_DB,
+        password: config.POSTGRES_PASSWORD,
+        port: config.POSTGRES_PORT,
     });
 
     console.log('🔄 Waiting for database connection...');

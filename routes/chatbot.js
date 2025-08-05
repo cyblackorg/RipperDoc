@@ -7,28 +7,31 @@ const path = require('path');
 const OpenAI = require('openai');
 const { exec } = require('child_process');
 
+// Load configuration
+const config = require('../config');
+
 // Database configuration (matching server.js)
 const pool = new Pool({
-  user: process.env.POSTGRES_USER || 'postgres',
-  host: process.env.POSTGRES_HOST || 'db',
-  database: process.env.POSTGRES_DB || 'ripperdoc',
-  password: process.env.POSTGRES_PASSWORD || 'postgres',
-  port: process.env.POSTGRES_PORT || 5432,
+  user: config.POSTGRES_USER,
+  host: config.POSTGRES_HOST,
+  database: config.POSTGRES_DB,
+  password: config.POSTGRES_PASSWORD,
+  port: config.POSTGRES_PORT,
 });
 
 // LLM Configuration - OpenAI only
-const LLM_PROVIDER = process.env.LLM_PROVIDER || 'openai';
-const OPENAI_MODEL = process.env.OPENAI_MODEL || 'gpt-4o-mini';
+const LLM_PROVIDER = config.LLM_PROVIDER;
+const OPENAI_MODEL = config.OPENAI_MODEL;
 
 // Initialize LLM client
 const llmClient = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY || 'sk-fake-key-for-testing',
-  baseURL: process.env.OPENAI_BASE_URL || 'https://api.openai.com/v1'
+  apiKey: config.OPENAI_API_KEY || 'sk-fake-key-for-testing',
+  baseURL: config.OPENAI_BASE_URL
 });
 
 console.log(`🤖 LLM Provider: OpenAI (${OPENAI_MODEL})`);
-console.log(`🌐 OpenAI Base URL: ${process.env.OPENAI_BASE_URL || 'https://api.openai.com/v1'}`);
-console.log(`🔑 OpenAI API Key: ${process.env.OPENAI_API_KEY ? '✅ Configured' : '❌ Missing'}`);
+console.log(`🌐 OpenAI Base URL: ${config.OPENAI_BASE_URL}`);
+console.log(`🔑 OpenAI API Key: ${config.OPENAI_API_KEY ? '✅ Configured' : '❌ Missing'}`);
 
 // Helper function to get the model name
 function getModelName() {
@@ -762,7 +765,7 @@ router.get('/admin/llm-status', (req, res) => {
     res.json({
       system: 'RipperDoc AI System',
       llm_model: getModelName(),
-      api_endpoint: process.env.OPENAI_BASE_URL || 'https://api.openai.com/v1',
+      api_endpoint: config.OPENAI_BASE_URL,
       knowledge_base: Object.keys(knowledgeBase).length > 0 ? 'Loaded' : 'Error',
       database_schema: {
         users: 'id, first_name, last_name, email, role, password',

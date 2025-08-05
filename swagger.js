@@ -1,6 +1,9 @@
 const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 
+// Load configuration
+const config = require('./config');
+
 const options = {
   definition: {
     openapi: '3.0.0',
@@ -19,9 +22,8 @@ const options = {
     },
     servers: [
       {
-        // url: 'http://localhost:5000',
-        url: 'http://ripperdoc.fezzant.com:5000',
-        description: 'Development server'
+        url: config.REACT_APP_API_URL,
+        description: `${config.NODE_ENV} server`
       }
     ],
     components: {

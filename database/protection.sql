@@ -2,6 +2,12 @@
 -- This script adds protections to prevent critical database operations
 -- while keeping the application deliberately vulnerable for testing
 
+-- Log that protection script is starting
+DO $$
+BEGIN
+    RAISE NOTICE 'Starting database protection setup...';
+END $$;
+
 -- Create a function to prevent dangerous operations
 CREATE OR REPLACE FUNCTION prevent_dangerous_operations()
 RETURNS TRIGGER AS $$
@@ -123,4 +129,14 @@ EXCEPTION
     WHEN OTHERS THEN
         -- If comments fail, ignore them
         NULL;
+END $$;
+
+-- Log successful completion
+DO $$
+BEGIN
+    RAISE NOTICE 'Database protection setup completed successfully';
+EXCEPTION
+    WHEN OTHERS THEN
+        -- Log any errors but don't fail the initialization
+        RAISE NOTICE 'Database protection setup encountered errors: %', SQLERRM;
 END $$; 

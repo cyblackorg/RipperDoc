@@ -23,17 +23,23 @@ services:
     ports:
       - "5000:5000"
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=ripperdoc
-      - POSTGRES_HOST=db
-      - POSTGRES_PORT=5432
-      - JWT_SECRET=your-secret-key-here
+      - NODE_ENV=${NODE_ENV:-development}
+      - POSTGRES_USER=${POSTGRES_USER:-postgres}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
+      - POSTGRES_DB=${POSTGRES_DB:-ripperdoc}
+      - POSTGRES_HOST=${POSTGRES_HOST:-db}
+      - POSTGRES_PORT=${POSTGRES_PORT:-5432}
+      - JWT_SECRET=${JWT_SECRET:-ripperdoc-dev-secret-key}
       # LLM Configuration - OpenAI only
       - LLM_PROVIDER=${LLM_PROVIDER:-openai}
-      - OPENAI_API_KEY
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
       - OPENAI_MODEL=${OPENAI_MODEL:-gpt-4o-mini}
       - OPENAI_BASE_URL=${OPENAI_BASE_URL:-https://api.openai.com/v1}
+      # Client URLs
+      - REACT_APP_API_URL_DEV=${REACT_APP_API_URL_DEV:-http://localhost:5000}
+      - REACT_APP_CLIENT_URL_DEV=${REACT_APP_CLIENT_URL_DEV:-http://localhost:3000}
+      - REACT_APP_API_URL_PROD=${REACT_APP_API_URL_PROD:-http://ripperdoc.fezzant.com:5000}
+      - REACT_APP_CLIENT_URL_PROD=${REACT_APP_CLIENT_URL_PROD:-http://ripperdoc.fezzant.com:3000}
     command: >
       sh -c "
         echo '🚀 Starting RipperDoc Server...' &&
@@ -51,8 +57,11 @@ services:
     ports:
       - "3000:3000"
     environment:
-      # - REACT_APP_API_URL=http://localhost:5000
-      - REACT_APP_API_URL=http://ripperdoc.fezzant.com:5000
+      - NODE_ENV=${NODE_ENV:-development}
+      - REACT_APP_API_URL_DEV=${REACT_APP_API_URL_DEV:-http://localhost:5000}
+      - REACT_APP_CLIENT_URL_DEV=${REACT_APP_CLIENT_URL_DEV:-http://localhost:3000}
+      - REACT_APP_API_URL_PROD=${REACT_APP_API_URL_PROD:-http://ripperdoc.fezzant.com:5000}
+      - REACT_APP_CLIENT_URL_PROD=${REACT_APP_CLIENT_URL_PROD:-http://ripperdoc.fezzant.com:3000}
     depends_on:
       - server
     restart: unless-stopped
