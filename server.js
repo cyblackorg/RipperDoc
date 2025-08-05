@@ -1668,14 +1668,14 @@ app.get('/api/info', (req, res) => {
         application: 'Zero Health',
         version: '2.1.3',
         node_version: process.version,
-        environment: process.env.NODE_ENV || 'development',
+        environment: config.NODE_ENV,
         platform: process.platform,
         uptime: process.uptime(),
         memory_usage: process.memoryUsage(),
         database: {
-            host: process.env.POSTGRES_HOST || 'db',
-            port: process.env.POSTGRES_PORT || 5432,
-            database: process.env.POSTGRES_DB || 'ripperdoc'
+            host: config.POSTGRES_HOST,
+            port: config.POSTGRES_PORT,
+            database: config.POSTGRES_DB
         },
         jwt_secret: JWT_SECRET,  // Exposed secret!
         admin_credentials: {

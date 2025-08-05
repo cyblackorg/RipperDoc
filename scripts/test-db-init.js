@@ -2,12 +2,15 @@
 
 const { Pool } = require('pg');
 
+// Load configuration
+const config = require('../config');
+
 const pool = new Pool({
-    user: 'postgres',
-    host: process.env.POSTGRES_HOST || 'localhost',
-    database: 'ripperdoc',
-    password: 'postgres',
-    port: 5432,
+    user: config.POSTGRES_USER,
+    host: config.POSTGRES_HOST,
+    database: config.POSTGRES_DB,
+    password: config.POSTGRES_PASSWORD,
+    port: config.POSTGRES_PORT,
 });
 
 async function testDatabaseConnection() {
