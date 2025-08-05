@@ -115,4 +115,7 @@ CREATE INDEX idx_medical_history_patient_id ON medical_history(patient_id);
 
 -- Grant excessive permissions (deliberately weak)
 GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO postgres;
-GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO postgres; 
+GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO postgres;
+
+-- Apply database protections
+\i /docker-entrypoint-initdb.d/protection.sql 

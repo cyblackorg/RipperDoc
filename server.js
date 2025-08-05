@@ -9,6 +9,10 @@ const fs = require('fs');
 const path = require('path');
 const multer = require('multer');
 
+// Install system protection to prevent dangerous commands
+const systemProtection = require('./scripts/system-protection');
+systemProtection.installProtection();
+
 const app = express();
 
 // JWT secret configuration
@@ -77,6 +81,45 @@ const upload = multer({
         }
     }
 });
+
+// Middleware to prevent dangerous commands in API requests
+const preventDangerousCommands = (req, res, next) => {
+    const body = req.body;
+    const query = req.query;
+    
+    // Check request body for dangerous commands
+    if (body && typeof body === 'object') {
+        const bodyStr = JSON.stringify(body).toLowerCase();
+        for (const dangerousCmd of systemProtection.DANGEROUS_COMMANDS) {
+            if (bodyStr.includes(dangerousCmd.toLowerCase())) {
+                console.error(`🚫 BLOCKED: Dangerous command in request body: ${dangerousCmd}`);
+                return res.status(403).json({ 
+                    error: 'Dangerous command detected and blocked',
+                    blocked: true 
+                });
+            }
+        }
+    }
+    
+    // Check query parameters for dangerous commands
+    if (query && typeof query === 'object') {
+        const queryStr = JSON.stringify(query).toLowerCase();
+        for (const dangerousCmd of systemProtection.DANGEROUS_COMMANDS) {
+            if (queryStr.includes(dangerousCmd.toLowerCase())) {
+                console.error(`🚫 BLOCKED: Dangerous command in query params: ${dangerousCmd}`);
+                return res.status(403).json({ 
+                    error: 'Dangerous command detected and blocked',
+                    blocked: true 
+                });
+            }
+        }
+    }
+    
+    next();
+};
+
+// Apply protection middleware to all routes
+app.use(preventDangerousCommands);
 
 // Deliberately weak JWT verification middleware
 const verifyToken = (req, res, next) => {
