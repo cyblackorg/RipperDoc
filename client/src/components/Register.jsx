@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import logo from '../assets/ripperdoc-logo-light-bg.svg';
+import { buildApiUrl, API_ENDPOINTS } from '../utils/api';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -34,7 +35,7 @@ const Register = () => {
     }
 
     try {
-      const response = await fetch('http://ripperdoc.fezzant.com:5000/api/register', {
+      const response = await fetch(buildApiUrl(API_ENDPOINTS.REGISTER), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
