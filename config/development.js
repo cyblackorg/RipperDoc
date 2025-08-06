@@ -19,7 +19,7 @@ module.exports = {
   
   // Server Configuration
   SERVER_PORT: process.env.SERVER_PORT || 5000,
-  SERVER_HOST: process.env.SERVER_HOST || '127.0.0.1',
+  SERVER_HOST: process.env.SERVER_HOST || '0.0.0.0',
   
   // Client Configuration
   REACT_APP_API_URL: process.env.REACT_APP_API_URL_DEV || 'http://localhost:5000',
