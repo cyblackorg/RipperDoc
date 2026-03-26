@@ -21,13 +21,16 @@ const app = express();
 // JWT secret configuration
 const JWT_SECRET = config.JWT_SECRET;
 
-// CORS configuration
+// CORS configuration - Allow all origins
 app.use(cors({
-    origin: true,  // Allow any origin (deliberately insecure)
+    origin: (origin, callback) => {
+        // Allow any origin (null for same-origin, mobile apps, etc.)
+        callback(null, true);
+    },
     credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'Accept', 'X-Requested-With', 'Origin', 'Cache-Control', 'X-File-Name'],  // Explicit headers for credentials mode
-    exposedHeaders: ['Content-Type', 'Authorization', 'X-Total-Count'],  // Explicit headers for credentials mode
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'Accept', 'X-Requested-With', 'Origin', 'Cache-Control', 'X-File-Name'],
+    exposedHeaders: ['Content-Type', 'Authorization', 'X-Total-Count'],
     preflightContinue: false,
     optionsSuccessStatus: 204
 }));
@@ -162,7 +165,7 @@ const verifyToken = (req, res, next) => {
 app.options('/api/*', (req, res) => {
     res.header('Access-Control-Allow-Origin', req.headers.origin || '*');
     res.header('Access-Control-Allow-Credentials', 'true');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Accept, X-Requested-With, Origin, Cache-Control, X-File-Name');
     res.status(204).end();
 });
