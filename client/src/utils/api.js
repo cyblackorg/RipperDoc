@@ -39,7 +39,8 @@ export const buildApiUrl = (endpoint) => {
 
 // Create a standardized fetch wrapper with credentials
 export const fetchWithCredentials = async (url, options = {}) => {
-  const defaultOptions = {
+  const mergedOptions = {
+    ...options,
     credentials: 'include',
     headers: {
       ...(options.body instanceof FormData ? {} : { 'Content-Type': 'application/json' }),
@@ -47,7 +48,7 @@ export const fetchWithCredentials = async (url, options = {}) => {
     },
   };
 
-  const response = await fetch(url, { ...defaultOptions, ...options });
+  const response = await fetch(url, mergedOptions);
   return response;
 };
 
