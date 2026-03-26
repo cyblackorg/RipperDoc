@@ -21,10 +21,15 @@ const LLM_PROVIDER = process.env.LLM_PROVIDER || 'openai';
 const OPENAI_MODEL = process.env.OPENAI_MODEL || 'gpt-4o-mini';
 
 // Initialize LLM client
-const llmClient = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY || 'sk-fake-key-for-testing',
-  baseURL: process.env.OPENAI_BASE_URL || 'https://api.openai.com/v1'
-});
+let llmClient;
+try {
+  llmClient = new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY || 'sk-fake-key-for-testing',
+    baseURL: process.env.OPENAI_BASE_URL || 'https://api.openai.com/v1'
+  });
+} catch (error) {
+  console.error('Failed to initialize OpenAI client:', error);
+}
 
 console.log(`🤖 LLM Provider: OpenAI (${OPENAI_MODEL})`);
 console.log(`🌐 OpenAI Base URL: ${process.env.OPENAI_BASE_URL || 'https://api.openai.com/v1'}`);
@@ -428,7 +433,6 @@ Respond with JSON in this exact format:
     
   } catch (error) {
     console.error('Intent classification error:', error);
-    console.error('Raw LLM response:', completion?.choices?.[0]?.message?.content || 'No response');
     // Default to conversation if classification fails
     return { type: 'conversation' };
   }
@@ -616,7 +620,6 @@ Respond with JSON in this exact format:
     
   } catch (error) {
     console.error('Action request error:', error);
-    console.error('Raw LLM response:', completion?.choices?.[0]?.message?.content || 'No response');
     return 'I apologize, but I had trouble understanding your request. Could you please rephrase it?';
   }
 }
