@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import logo from '../assets/ripperdoc-logo-light.svg';
 import Chatbot from './Chatbot';
-import { fetchWithCredentials } from '../utils/api';
+import { fetchWithCredentials, buildApiUrl, buildUploadUrl, API_ENDPOINTS } from '../utils/api';
 
 const PatientPortal = () => {
   const [user, setUser] = useState(null);
@@ -79,7 +79,7 @@ const PatientPortal = () => {
 
   const fetchAppointments = async () => {
     try {
-      const response = await fetchWithCredentials('http://ripperdoc.fezzant.com:5000/api/appointments', {
+      const response = await fetchWithCredentials(buildApiUrl(API_ENDPOINTS.APPOINTMENTS), {
         headers: getAuthHeaders()
       });
       if (response.ok) {
@@ -93,7 +93,7 @@ const PatientPortal = () => {
 
   const fetchLabResults = async () => {
     try {
-      const response = await fetchWithCredentials('http://ripperdoc.fezzant.com:5000/api/lab-results', {
+      const response = await fetchWithCredentials(buildApiUrl(API_ENDPOINTS.LAB_RESULTS), {
         headers: getAuthHeaders()
       });
       if (response.ok) {
@@ -107,7 +107,7 @@ const PatientPortal = () => {
 
   const fetchPrescriptions = async () => {
     try {
-      const response = await fetchWithCredentials('http://ripperdoc.fezzant.com:5000/api/prescriptions', {
+      const response = await fetchWithCredentials(buildApiUrl(API_ENDPOINTS.PRESCRIPTIONS), {
         headers: getAuthHeaders()
       });
       if (response.ok) {
@@ -121,7 +121,7 @@ const PatientPortal = () => {
 
   const fetchMessages = async () => {
     try {
-      const response = await fetchWithCredentials('http://ripperdoc.fezzant.com:5000/api/messages', {
+      const response = await fetchWithCredentials(buildApiUrl(API_ENDPOINTS.MESSAGES), {
         headers: getAuthHeaders()
       });
       if (response.ok) {
@@ -135,7 +135,7 @@ const PatientPortal = () => {
 
   const fetchDoctors = async () => {
     try {
-      const response = await fetchWithCredentials('http://ripperdoc.fezzant.com:5000/api/doctors', {
+      const response = await fetchWithCredentials(buildApiUrl(API_ENDPOINTS.DOCTORS), {
         headers: getAuthHeaders()
       });
       if (response.ok) {
@@ -150,7 +150,7 @@ const PatientPortal = () => {
   const handleBookAppointment = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetchWithCredentials('http://ripperdoc.fezzant.com:5000/api/appointments', {
+      const response = await fetchWithCredentials(buildApiUrl(API_ENDPOINTS.APPOINTMENTS), {
         method: 'POST',
         headers: getAuthHeaders(),
         body: JSON.stringify(newAppointment)
@@ -180,7 +180,7 @@ const PatientPortal = () => {
         formData.append('attachment', messageAttachment);
       }
 
-      const response = await fetchWithCredentials('http://ripperdoc.fezzant.com:5000/api/messages', {
+      const response = await fetchWithCredentials(buildApiUrl(API_ENDPOINTS.MESSAGES), {
         method: 'POST',
         headers: {
           'Authorization': getAuthToken() ? `Bearer ${getAuthToken()}` : ''
@@ -386,7 +386,7 @@ const PatientPortal = () => {
                         <strong>Lab Image:</strong>
                         <div style={{ marginTop: '8px' }}>
                           <img 
-                            src={`http://ripperdoc.fezzant.com:5000/uploads/${result.file_path}`} 
+                            src={buildUploadUrl(result.file_path)} 
                             alt="Lab result" 
                             style={{
                               maxWidth: '100%',
@@ -396,11 +396,11 @@ const PatientPortal = () => {
                               borderRadius: '4px',
                               cursor: 'pointer'
                             }}
-                            onClick={() => window.open(`http://ripperdoc.fezzant.com:5000/uploads/${result.file_path}`, '_blank')}
+                            onClick={() => window.open(buildUploadUrl(result.file_path), '_blank')}
                           />
                           <div style={{ marginTop: '4px' }}>
                             <button
-                              onClick={() => window.open(`http://ripperdoc.fezzant.com:5000/uploads/${result.file_path}`, '_blank')}
+                              onClick={() => window.open(buildUploadUrl(result.file_path), '_blank')}
                               style={{
                                 background: 'var(--color-teal-zero)',
                                 color: 'white',
@@ -549,10 +549,10 @@ const PatientPortal = () => {
                         {message.attachment_path && message.attachment_path !== 'null' && message.attachment_path.trim() !== '' && (
                           <div style={{marginTop: '10px'}}>
                             <img 
-                              src={`http://ripperdoc.fezzant.com:5000/uploads/${message.attachment_path}`} 
+                              src={buildUploadUrl(message.attachment_path)} 
                               alt="Message attachment" 
                               style={{maxHeight: '200px', maxWidth: '300px', border: '1px solid #ddd', borderRadius: '8px', cursor: 'pointer'}}
-                              onClick={() => window.open(`http://ripperdoc.fezzant.com:5000/uploads/${message.attachment_path}`, '_blank')}
+                              onClick={() => window.open(buildUploadUrl(message.attachment_path), '_blank')}
                             />
                           </div>
                         )}

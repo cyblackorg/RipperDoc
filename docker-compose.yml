@@ -35,11 +35,8 @@ services:
       - OPENAI_API_KEY=${OPENAI_API_KEY}
       - OPENAI_MODEL=${OPENAI_MODEL:-gpt-4o-mini}
       - OPENAI_BASE_URL=${OPENAI_BASE_URL:-https://api.openai.com/v1}
-      # Client URLs
-      - REACT_APP_API_URL_DEV=${REACT_APP_API_URL_DEV:-http://localhost:5000}
-      - REACT_APP_CLIENT_URL_DEV=${REACT_APP_CLIENT_URL_DEV:-http://localhost:3000}
-      - REACT_APP_API_URL_PROD=${REACT_APP_API_URL_PROD:-http://ripperdoc.fezzant.com:5000}
-      - REACT_APP_CLIENT_URL_PROD=${REACT_APP_CLIENT_URL_PROD:-http://ripperdoc.fezzant.com:3000}
+      # Client URLs - now auto-detects based on hostname
+      - REACT_APP_API_URL=${REACT_APP_API_URL:-}
     command: >
       sh -c "
         echo '🚀 Starting RipperDoc Server...' &&
@@ -58,10 +55,11 @@ services:
       - "3000:3000"
     environment:
       - NODE_ENV=${NODE_ENV:-development}
+      - REACT_APP_API_URL=${REACT_APP_API_URL:-}
       - REACT_APP_API_URL_DEV=${REACT_APP_API_URL_DEV:-http://localhost:5000}
       - REACT_APP_CLIENT_URL_DEV=${REACT_APP_CLIENT_URL_DEV:-http://localhost:3000}
-      - REACT_APP_API_URL_PROD=${REACT_APP_API_URL_PROD:-http://ripperdoc.fezzant.com:5000}
-      - REACT_APP_CLIENT_URL_PROD=${REACT_APP_CLIENT_URL_PROD:-http://ripperdoc.fezzant.com:3000}
+      - REACT_APP_API_URL_PROD=${REACT_APP_API_URL_PROD:-http://your-domain.com:5000}
+      - REACT_APP_CLIENT_URL_PROD=${REACT_APP_CLIENT_URL_PROD:-http://your-domain.com:3000}
     depends_on:
       - server
     restart: unless-stopped

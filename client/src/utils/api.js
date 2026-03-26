@@ -1,33 +1,33 @@
 // API utility for environment-based URL configuration
 const getApiUrl = () => {
-  // Check for environment variable first
+  // Check for environment variable first (highest priority)
   if (process.env.REACT_APP_API_URL) {
     return process.env.REACT_APP_API_URL;
   }
-  
+
   // Check if we're running locally by checking the current hostname
   if (typeof window !== 'undefined') {
     const hostname = window.location.hostname;
-    const port = window.location.port;
-    
+
     // If we're on localhost or 127.0.0.1, use local API
     if (hostname === 'localhost' || hostname === '127.0.0.1') {
       return 'http://localhost:5000';
     }
-    
-    // If we're on the production domain, use production API
-    if (hostname === 'ripperdoc.fezzant.com') {
-      return 'http://ripperdoc.fezzant.com:5000';
+
+    // If we're on the production domain, use production API (match hostname)
+    // This will work for zero-health.fezzant.com, ripperdoc.fezzant.com, or any other domain
+    if (hostname.includes('fezzant.com') || hostname.includes('zero-health') || hostname.includes('ripperdoc')) {
+      return `http://${hostname}:5000`;
     }
   }
-  
+
   // Default fallback - try to detect based on current location
   if (typeof window !== 'undefined') {
     const protocol = window.location.protocol;
     const hostname = window.location.hostname;
     return `${protocol}//${hostname}:5000`;
   }
-  
+
   // Final fallback
   return 'http://localhost:5000';
 };
@@ -49,13 +49,18 @@ export const fetchWithCredentials = async (url, options = {}) => {
   const defaultOptions = {
     credentials: 'include',
     headers: {
-      'Content-Type': 'application/json',
+      ...(options.body instanceof FormData ? {} : { 'Content-Type': 'application/json' }),
       ...options.headers,
     },
   };
 
   const response = await fetch(url, { ...defaultOptions, ...options });
   return response;
+};
+
+// Helper function to build upload URLs
+export const buildUploadUrl = (filePath) => {
+  return `${API_BASE_URL}/uploads/${filePath}`;
 };
 
 // Common API endpoints

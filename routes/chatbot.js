@@ -201,9 +201,14 @@ function filterPromptInjection(message) {
 
 // Authentication middleware - deliberately weak
 const authenticateUser = (req, res, next) => {
+  // Skip authentication for OPTIONS preflight requests
+  if (req.method === 'OPTIONS') {
+    return next();
+  }
+
   const authHeader = req.headers.authorization;
   const token = authHeader && authHeader.split(' ')[1];
-  
+
   if (!token) {
     return res.status(401).json({ error: 'Authentication required' });
   }
@@ -211,12 +216,12 @@ const authenticateUser = (req, res, next) => {
   try {
     // Deliberately weak: No algorithm verification, accepts any valid JWT structure
     const decoded = jwt.decode(token); // Using decode instead of verify!
-    
+
     // Check if token has required fields
     if (!decoded || !decoded.id || !decoded.role) {
       return res.status(403).json({ error: 'Invalid token structure' });
     }
-    
+
     req.user = decoded;
     next();
   } catch (error) {

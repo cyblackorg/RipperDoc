@@ -23,16 +23,11 @@ const JWT_SECRET = config.JWT_SECRET;
 
 // CORS configuration - Allow all origins
 app.use(cors({
-    origin: (origin, callback) => {
-        // Allow any origin (null for same-origin, mobile apps, etc.)
-        callback(null, true);
-    },
+    origin: true,
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
     allowedHeaders: ['Content-Type', 'Authorization', 'Accept', 'X-Requested-With', 'Origin', 'Cache-Control', 'X-File-Name'],
-    exposedHeaders: ['Content-Type', 'Authorization', 'X-Total-Count'],
-    preflightContinue: false,
-    optionsSuccessStatus: 204
+    exposedHeaders: ['Content-Type', 'Authorization', 'X-Total-Count']
 }));
 
 app.use(cookieParser());
@@ -129,11 +124,16 @@ app.use(preventDangerousCommands);
 
 // Deliberately weak JWT verification middleware
 const verifyToken = (req, res, next) => {
+    // Skip verification for OPTIONS preflight requests
+    if (req.method === 'OPTIONS') {
+        return next();
+    }
+
     const authHeader = req.headers.authorization;
     const token = authHeader && authHeader.split(' ')[1]; // Bearer TOKEN
-    
+
     console.log('Token verification attempt:', token ? 'Token present' : 'No token');
-    
+
     if (!token) {
         return res.status(401).json({ error: 'Access token required' });
     }
@@ -162,14 +162,6 @@ const verifyToken = (req, res, next) => {
 };
 
 // Add OPTIONS handlers for all API endpoints
-app.options('/api/*', (req, res) => {
-    res.header('Access-Control-Allow-Origin', req.headers.origin || '*');
-    res.header('Access-Control-Allow-Credentials', 'true');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Accept, X-Requested-With, Origin, Cache-Control, X-File-Name');
-    res.status(204).end();
-});
-
 /**
  * @swagger
  * /api/register:
