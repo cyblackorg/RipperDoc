@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import logo from '../assets/ripperdoc-logo-light-bg.svg';
-import { buildApiUrl, API_ENDPOINTS } from '../utils/api';
+import { buildApiUrl, API_ENDPOINTS, fetchWithCredentials } from '../utils/api';
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -12,11 +12,8 @@ const Login = () => {
     
     try {
       // Deliberately vulnerable: No input sanitization
-      const response = await fetch(buildApiUrl(API_ENDPOINTS.LOGIN), {
+      const response = await fetchWithCredentials(buildApiUrl(API_ENDPOINTS.LOGIN), {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
         body: JSON.stringify({ email: username, password }),
       });
 

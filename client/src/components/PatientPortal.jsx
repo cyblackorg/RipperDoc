@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import logo from '../assets/ripperdoc-logo-light.svg';
 import Chatbot from './Chatbot';
+import { fetchWithCredentials } from '../utils/api';
 
 const PatientPortal = () => {
   const [user, setUser] = useState(null);
@@ -78,7 +79,7 @@ const PatientPortal = () => {
 
   const fetchAppointments = async () => {
     try {
-      const response = await fetch('http://ripperdoc.fezzant.com:5000/api/appointments', {
+      const response = await fetchWithCredentials('http://ripperdoc.fezzant.com:5000/api/appointments', {
         headers: getAuthHeaders()
       });
       if (response.ok) {
@@ -92,7 +93,7 @@ const PatientPortal = () => {
 
   const fetchLabResults = async () => {
     try {
-      const response = await fetch('http://ripperdoc.fezzant.com:5000/api/lab-results', {
+      const response = await fetchWithCredentials('http://ripperdoc.fezzant.com:5000/api/lab-results', {
         headers: getAuthHeaders()
       });
       if (response.ok) {
@@ -106,7 +107,7 @@ const PatientPortal = () => {
 
   const fetchPrescriptions = async () => {
     try {
-      const response = await fetch('http://ripperdoc.fezzant.com:5000/api/prescriptions', {
+      const response = await fetchWithCredentials('http://ripperdoc.fezzant.com:5000/api/prescriptions', {
         headers: getAuthHeaders()
       });
       if (response.ok) {
@@ -120,7 +121,7 @@ const PatientPortal = () => {
 
   const fetchMessages = async () => {
     try {
-      const response = await fetch('http://ripperdoc.fezzant.com:5000/api/messages', {
+      const response = await fetchWithCredentials('http://ripperdoc.fezzant.com:5000/api/messages', {
         headers: getAuthHeaders()
       });
       if (response.ok) {
@@ -134,7 +135,7 @@ const PatientPortal = () => {
 
   const fetchDoctors = async () => {
     try {
-      const response = await fetch('http://ripperdoc.fezzant.com:5000/api/doctors', {
+      const response = await fetchWithCredentials('http://ripperdoc.fezzant.com:5000/api/doctors', {
         headers: getAuthHeaders()
       });
       if (response.ok) {
@@ -149,12 +150,12 @@ const PatientPortal = () => {
   const handleBookAppointment = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://ripperdoc.fezzant.com:5000/api/appointments', {
+      const response = await fetchWithCredentials('http://ripperdoc.fezzant.com:5000/api/appointments', {
         method: 'POST',
         headers: getAuthHeaders(),
         body: JSON.stringify(newAppointment)
       });
-      
+
       if (response.ok) {
         setNewAppointment({ doctor_id: '', appointment_date: '', reason: '' });
         setShowAppointmentForm(false);
@@ -178,15 +179,15 @@ const PatientPortal = () => {
       if (messageAttachment) {
         formData.append('attachment', messageAttachment);
       }
-      
-      const response = await fetch('http://ripperdoc.fezzant.com:5000/api/messages', {
+
+      const response = await fetchWithCredentials('http://ripperdoc.fezzant.com:5000/api/messages', {
         method: 'POST',
         headers: {
           'Authorization': getAuthToken() ? `Bearer ${getAuthToken()}` : ''
         },
         body: formData
       });
-      
+
       if (response.ok) {
         setNewMessage({ recipient_id: '', subject: '', content: '' });
         setMessageAttachment(null);

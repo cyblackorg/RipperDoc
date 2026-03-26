@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import logo from '../assets/ripperdoc-logo-light.svg';
 import Chatbot from './Chatbot';
-import { buildApiUrl, API_ENDPOINTS } from '../utils/api';
+import { buildApiUrl, API_ENDPOINTS, fetchWithCredentials } from '../utils/api';
 
 const StaffDashboard = () => {
   const [user, setUser] = useState(null);
@@ -116,7 +116,7 @@ const StaffDashboard = () => {
 
   const fetchPatients = async () => {
     try {
-      const response = await fetch(buildApiUrl(API_ENDPOINTS.PATIENTS), {
+      const response = await fetchWithCredentials(buildApiUrl(API_ENDPOINTS.PATIENTS), {
         headers: getAuthHeaders()
       });
       if (response.ok) {
@@ -130,7 +130,7 @@ const StaffDashboard = () => {
 
   const fetchAppointments = async () => {
     try {
-      const response = await fetch(buildApiUrl(API_ENDPOINTS.APPOINTMENTS), {
+      const response = await fetchWithCredentials(buildApiUrl(API_ENDPOINTS.APPOINTMENTS), {
         headers: getAuthHeaders()
       });
       if (response.ok) {
@@ -144,7 +144,7 @@ const StaffDashboard = () => {
 
   const fetchLabResults = async () => {
     try {
-      const response = await fetch(buildApiUrl(API_ENDPOINTS.LAB_RESULTS), {
+      const response = await fetchWithCredentials(buildApiUrl(API_ENDPOINTS.LAB_RESULTS), {
         headers: getAuthHeaders()
       });
       if (response.ok) {
@@ -158,7 +158,7 @@ const StaffDashboard = () => {
 
   const fetchPrescriptions = async () => {
     try {
-      const response = await fetch(buildApiUrl(API_ENDPOINTS.PRESCRIPTIONS), {
+      const response = await fetchWithCredentials(buildApiUrl(API_ENDPOINTS.PRESCRIPTIONS), {
         headers: getAuthHeaders()
       });
       if (response.ok) {
@@ -172,7 +172,7 @@ const StaffDashboard = () => {
 
   const fetchMessages = async () => {
     try {
-      const response = await fetch(buildApiUrl(API_ENDPOINTS.MESSAGES), {
+      const response = await fetchWithCredentials(buildApiUrl(API_ENDPOINTS.MESSAGES), {
         headers: getAuthHeaders()
       });
       if (response.ok) {
@@ -186,7 +186,7 @@ const StaffDashboard = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await fetch(buildApiUrl(API_ENDPOINTS.ADMIN_USERS), {
+      const response = await fetchWithCredentials(buildApiUrl(API_ENDPOINTS.ADMIN_USERS), {
         headers: getAuthHeaders()
       });
       if (response.ok) {
@@ -200,7 +200,7 @@ const StaffDashboard = () => {
 
   const fetchStatistics = async () => {
     try {
-      const response = await fetch(buildApiUrl(API_ENDPOINTS.ADMIN_STATISTICS), {
+      const response = await fetchWithCredentials(buildApiUrl(API_ENDPOINTS.ADMIN_STATISTICS), {
         headers: getAuthHeaders()
       });
       if (response.ok) {
@@ -224,7 +224,7 @@ const StaffDashboard = () => {
         formData.append('image', labResultImage);
       }
       
-      const response = await fetch(buildApiUrl(API_ENDPOINTS.LAB_RESULTS), {
+      const response = await fetchWithCredentials(buildApiUrl(API_ENDPOINTS.LAB_RESULTS), {
         method: 'POST',
         headers: {
           'Authorization': getAuthToken() ? `Bearer ${getAuthToken()}` : ''
@@ -249,7 +249,7 @@ const StaffDashboard = () => {
   const handleCreatePrescription = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(buildApiUrl(API_ENDPOINTS.PRESCRIPTIONS), {
+      const response = await fetchWithCredentials(buildApiUrl(API_ENDPOINTS.PRESCRIPTIONS), {
         method: 'POST',
         headers: getAuthHeaders(),
         body: JSON.stringify(newPrescription)
@@ -271,7 +271,7 @@ const StaffDashboard = () => {
   const handleCreateUser = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(buildApiUrl(API_ENDPOINTS.ADMIN_USERS), {
+      const response = await fetchWithCredentials(buildApiUrl(API_ENDPOINTS.ADMIN_USERS), {
         method: 'POST',
         headers: getAuthHeaders(),
         body: JSON.stringify(newUser)
@@ -296,7 +296,7 @@ const StaffDashboard = () => {
 
   const handleCollectPrescription = async (prescriptionId) => {
     try {
-      const response = await fetch(`${buildApiUrl(API_ENDPOINTS.PRESCRIPTIONS)}/${prescriptionId}/collect`, {
+      const response = await fetchWithCredentials(`${buildApiUrl(API_ENDPOINTS.PRESCRIPTIONS)}/${prescriptionId}/collect`, {
         method: 'PUT',
         headers: getAuthHeaders()
       });
@@ -316,7 +316,7 @@ const StaffDashboard = () => {
     if (!window.confirm('Are you sure you want to delete this user?')) return;
     
     try {
-      const response = await fetch(`${buildApiUrl(API_ENDPOINTS.ADMIN_USERS)}/${userId}`, {
+      const response = await fetchWithCredentials(`${buildApiUrl(API_ENDPOINTS.ADMIN_USERS)}/${userId}`, {
         method: 'DELETE',
         headers: getAuthHeaders()
       });
@@ -335,7 +335,7 @@ const StaffDashboard = () => {
 
   const handleUpdateUserRole = async (userId, newRole) => {
     try {
-      const response = await fetch(`${buildApiUrl(API_ENDPOINTS.ADMIN_USERS)}/${userId}/role`, {
+      const response = await fetchWithCredentials(`${buildApiUrl(API_ENDPOINTS.ADMIN_USERS)}/${userId}/role`, {
         method: 'PUT',
         headers: getAuthHeaders(),
         body: JSON.stringify({ role: newRole })
@@ -363,7 +363,7 @@ const StaffDashboard = () => {
         formData.append('attachment', replyAttachment);
       }
       
-      const response = await fetch(buildApiUrl(API_ENDPOINTS.MESSAGES), {
+      const response = await fetchWithCredentials(buildApiUrl(API_ENDPOINTS.MESSAGES), {
         method: 'POST',
         headers: {
           'Authorization': getAuthToken() ? `Bearer ${getAuthToken()}` : ''

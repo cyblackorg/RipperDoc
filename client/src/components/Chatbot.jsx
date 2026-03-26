@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './Chatbot.css';
+import { fetchWithCredentials } from '../utils/api';
 
 const Chatbot = ({ user }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -77,7 +78,7 @@ const Chatbot = ({ user }) => {
         }
         
         console.log('🌐 Making request to chat history endpoint...');
-        const response = await fetch('http://ripperdoc.fezzant.com:5000/api/chatbot/history', {
+        const response = await fetchWithCredentials('http://ripperdoc.fezzant.com:5000/api/chatbot/history', {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -170,10 +171,9 @@ const Chatbot = ({ user }) => {
     try {
       const userData = localStorage.getItem('user');
       const token = userData ? JSON.parse(userData).token : null;
-      const response = await fetch('http://ripperdoc.fezzant.com:5000/api/chatbot/chat', {
+      const response = await fetchWithCredentials('http://ripperdoc.fezzant.com:5000/api/chatbot/chat', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({

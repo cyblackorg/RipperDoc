@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import logo from '../assets/ripperdoc-logo-light-bg.svg';
+import { fetchWithCredentials } from '../utils/api';
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');
@@ -13,11 +14,8 @@ const ForgotPassword = () => {
     setMessage('');
     
     try {
-      const response = await fetch('http://ripperdoc.fezzant.com:5000/api/auth/forgot-password', {
+      const response = await fetchWithCredentials('http://ripperdoc.fezzant.com:5000/api/auth/forgot-password', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
         body: JSON.stringify({ email }),
       });
 

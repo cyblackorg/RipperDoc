@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import logo from '../assets/ripperdoc-logo-light-bg.svg';
+import { fetchWithCredentials } from '../utils/api';
 
 const ResetPassword = () => {
   const [searchParams] = useSearchParams();
@@ -36,11 +37,8 @@ const ResetPassword = () => {
     }
 
     try {
-      const response = await fetch('http://ripperdoc.fezzant.com:5000/api/auth/reset-password', {
+      const response = await fetchWithCredentials('http://ripperdoc.fezzant.com:5000/api/auth/reset-password', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
         body: JSON.stringify({
           email: formData.email,
           code: formData.code,

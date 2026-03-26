@@ -44,6 +44,20 @@ export const buildApiUrl = (endpoint) => {
   return `${API_BASE_URL}${endpoint}`;
 };
 
+// Create a standardized fetch wrapper with credentials
+export const fetchWithCredentials = async (url, options = {}) => {
+  const defaultOptions = {
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  };
+
+  const response = await fetch(url, { ...defaultOptions, ...options });
+  return response;
+};
+
 // Common API endpoints
 export const API_ENDPOINTS = {
   LOGIN: '/api/login',
