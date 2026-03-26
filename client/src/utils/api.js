@@ -5,27 +5,20 @@ const getApiUrl = () => {
     return process.env.REACT_APP_API_URL;
   }
 
-  // Check if we're running locally by checking the current hostname
+  // Auto-detect based on current hostname
   if (typeof window !== 'undefined') {
     const hostname = window.location.hostname;
 
-    // If we're on localhost or 127.0.0.1, use local API
+    // If we're on localhost, use local API
     if (hostname === 'localhost' || hostname === '127.0.0.1') {
       return 'http://localhost:5000';
     }
 
-    // If we're on the production domain, use production API (match hostname)
-    // This will work for zero-health.fezzant.com, ripperdoc.fezzant.com, or any other domain
-    if (hostname.includes('fezzant.com') || hostname.includes('zero-health') || hostname.includes('ripperdoc')) {
+    // For any other hostname, use the same hostname with port 5000
+    // This works for ANY domain: zero-health.fezzant.com, yourdomain.com, etc.
+    if (hostname && hostname !== 'localhost' && hostname !== '127.0.0.1') {
       return `http://${hostname}:5000`;
     }
-  }
-
-  // Default fallback - try to detect based on current location
-  if (typeof window !== 'undefined') {
-    const protocol = window.location.protocol;
-    const hostname = window.location.hostname;
-    return `${protocol}//${hostname}:5000`;
   }
 
   // Final fallback

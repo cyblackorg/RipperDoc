@@ -53,5 +53,5 @@ function createEnvFile() {
     console.log('   - Configure email settings if needed');
     console.log('\n🌍 Environment-specific URLs:');
     console.log('   Development: http://localhost:3000');
-    console.log('   Production: http://ripperdoc.fezzant.com:3000');
+    console.log('   Production: Auto-detects from hostname (works on any domain)');
 } 

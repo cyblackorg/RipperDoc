@@ -22,8 +22,8 @@ module.exports = {
   SERVER_HOST: process.env.SERVER_HOST || '0.0.0.0',
   
   // Client Configuration
-  REACT_APP_API_URL: process.env.REACT_APP_API_URL_PROD || 'http://ripperdoc.fezzant.com:5000',
-  REACT_APP_CLIENT_URL: process.env.REACT_APP_CLIENT_URL_PROD || 'http://ripperdoc.fezzant.com:3000',
+  REACT_APP_API_URL: process.env.REACT_APP_API_URL || '',
+  REACT_APP_CLIENT_URL: process.env.REACT_APP_CLIENT_URL || '',
   
   // Email Configuration
   EMAIL_SERVICE: process.env.EMAIL_SERVICE || 'smtp.gmail.com',
